@@ -1,6 +1,7 @@
 #include <Windows.h>
 
 #include "System.h"
+#include "Scene2D.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -13,5 +14,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	System* _System = new System();
 	_System->Init();
 
-	_System->Run();
+	_System->Run(new Scene2D());
 }

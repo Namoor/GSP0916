@@ -69,6 +69,7 @@ void System::InitGraphics()
 
 	DXGI_SWAP_CHAIN_DESC _SCD;
 	ZeroMemory(&_SCD, sizeof(_SCD));
+
 	_SCD.BufferCount = 1;
 	_SCD.BufferDesc.Format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
 	_SCD.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -94,6 +95,19 @@ void System::InitGraphics()
 
 	m_pGraphicsDevice->CreateRenderTargetView(m_pSwapChainBuffer, nullptr, &m_pScreen);
 
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pScreen, nullptr);
+
+	D3D11_VIEWPORT _Viewport;
+	_Viewport.TopLeftX = 0;
+	_Viewport.TopLeftY = 0;
+	_Viewport.Height = 600;
+	_Viewport.Width = 800;
+
+	_Viewport.MinDepth = 0;
+	_Viewport.MaxDepth = 1;
+
+	m_pDeviceContext->RSSetViewports(1, &_Viewport);
+
 }
 
 void System::Init()
@@ -103,9 +117,9 @@ void System::Init()
 }
 
 
-int System::Run()
+int System::Run(IScene* p_pScene)
 {
-
+	p_pScene->Init(m_pGraphicsDevice, m_pDeviceContext);
 
 	int QuitCode = 0;
 	bool Running = true;
@@ -129,26 +143,24 @@ int System::Run()
 
 
 
-		// Frame Updaten
-
-		// Frame zeichnen
+		// Scene Updaten
+		p_pScene->Update();
 
 		Frames++;
 
 		float _Color[4];
-		_Color[0] = (rand() % 256) / 256.0f;
-		_Color[1] = (rand() % 256) / 256.0f;
-		_Color[2] = (rand() % 256) / 256.0f;
+		_Color[0] = 1; // (rand() % 256) / 256.0f;
+		_Color[1] = 0; // (rand() % 256) / 256.0f;
+		_Color[2] = 0; // (rand() % 256) / 256.0f;
 		_Color[3] = 1;
 
 		m_pDeviceContext->ClearRenderTargetView(m_pScreen, _Color);
 
 		// Scene Rendern
+		p_pScene->Render(m_pGraphicsDevice, m_pDeviceContext);
 
 		m_pSwapChain->Present(0, 0);
 
-		if (Frames > 10000)
-			Running = false;
 	}
 
 	// Resourcen wieder freigeben

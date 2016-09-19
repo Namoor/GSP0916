@@ -2,13 +2,14 @@
 
 #include <Windows.h>
 #include "d3dinclude.h"
+#include "IScene.h"
 
 class System
 {
 public:
 
 	void Init();
-	int Run();
+	int Run(IScene* p_pScene);
 
 private:
 	void InitWindow();

@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{3a306dc4-d37f-4570-be86-c52ddffed649}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{7bc24b11-e6de-4e12-84c0-1f05fbb71658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Scene2D">
+      <UniqueIdentifier>{82ac5fa5-15f4-4321-b4e4-9d69bf6f68c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -26,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="System.cpp">
       <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Scene\Scene2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,5 +44,19 @@
     <ClInclude Include="d3dinclude.h">
       <Filter>Source Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Scene2D.h">
+      <Filter>Source Files\Scene\Scene2D</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VShader.hlsl">
+      <Filter>Source Files\Scene\Scene2D</Filter>
+    </FxCompile>
+    <FxCompile Include="PShader.hlsl">
+      <Filter>Source Files\Scene\Scene2D</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
