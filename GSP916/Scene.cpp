@@ -19,16 +19,16 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	
 	MyVertex _VertexBuffer[4];
 	_VertexBuffer[0].Position = XMFLOAT3(-0.5f, -0.5f, 0);
-	_VertexBuffer[0].Color = XMFLOAT3(1, 1, 1);
+	_VertexBuffer[0].Color = XMFLOAT3(1, 0.3f, 0.3f);
 
 	_VertexBuffer[1].Position = XMFLOAT3( 0.5f, -0.5f, 0);
-	_VertexBuffer[1].Color = XMFLOAT3(1, 0, 0);
+	_VertexBuffer[1].Color = XMFLOAT3(0.3f, 1, 0.3f);
 
 	_VertexBuffer[2].Position = XMFLOAT3( 0.5f,  0.5f, 0);
-	_VertexBuffer[2].Color = XMFLOAT3(0, 1, 0);
+	_VertexBuffer[2].Color = XMFLOAT3(1, 0.3f, 0.3f);
 
 	_VertexBuffer[3].Position = XMFLOAT3(-0.5f,  0.5f, 0);
-	_VertexBuffer[3].Color = XMFLOAT3(0, 0, 1);
+	_VertexBuffer[3].Color = XMFLOAT3(0.3f, 1, 0.3f);
 
 	unsigned int _IndexBuffer[6];
 	//Triangle 1
@@ -80,14 +80,26 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	ID3DBlob* _pVShaderCode;
 	ID3DBlob* _pErrorMessage;
 
-	D3DCompileFromFile(L"VShader.hlsl", nullptr, nullptr, "VShader", "vs_5_0", 0, 0, &_pVShaderCode, &_pErrorMessage);
+	if (D3DCompileFromFile(L"VShader.hlsl", nullptr, nullptr, "VShader", "vs_5_0", 0, 0, &_pVShaderCode, &_pErrorMessage) != S_OK)
+	{
+		MessageBox(0, (char*)_pErrorMessage->GetBufferPointer(), "Fehler im VertexShader", MB_OK);
+
+		PostQuitMessage(0);
+		return;
+	}
 
 	m_pDevice->CreateVertexShader(_pVShaderCode->GetBufferPointer(), _pVShaderCode->GetBufferSize(), nullptr, &m_pVertexShader);
 	
 	// Pixelshader erstellen
 
 	ID3DBlob* _pPShaderCode;
-	D3DCompileFromFile(L"PShader.hlsl", nullptr, nullptr, "PShader", "ps_5_0", 0, 0, &_pPShaderCode, &_pErrorMessage);
+	if (D3DCompileFromFile(L"PShader.hlsl", nullptr, nullptr, "PShader", "ps_5_0", 0, 0, &_pPShaderCode, &_pErrorMessage) != S_OK)
+	{
+		MessageBox(0, (char*)_pErrorMessage->GetBufferPointer(), "Fehler im PixelShader", MB_OK);
+
+		PostQuitMessage(0);
+		return;
+	}
 
 	m_pDevice->CreatePixelShader(_pPShaderCode->GetBufferPointer(), _pPShaderCode->GetBufferSize(), nullptr, &m_pPixelShader);
 
@@ -117,12 +129,35 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 
 
 	m_pDevice->CreateInputLayout(_IED, 2, _pVShaderCode->GetBufferPointer(), _pVShaderCode->GetBufferSize(), &m_pInputLayout);
+
+
+	D3D11_BUFFER_DESC _CBDesc;
+	ZeroMemory(&_CBDesc, sizeof(_CBDesc));
+
+	_CBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+	_CBDesc.ByteWidth = sizeof(XMFLOAT4);
+	_CBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+	_CBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+
+	m_pDevice->CreateBuffer(&_CBDesc, nullptr, &m_pConstantBuffer);
+
 }
 
 void Scene2D::Update()
 {
+	XMFLOAT4 _Color;
 
-	int asd = 0;
+	_Color.x = 1;
+	_Color.y = 0.3f;
+	_Color.z = 0.3f;
+	_Color.w = 1;
+
+	D3D11_MAPPED_SUBRESOURCE _MSR;
+	m_pDevCon->Map(m_pConstantBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_MSR);
+	memcpy(_MSR.pData, &_Color, sizeof(XMFLOAT4));
+	m_pDevCon->Unmap(m_pConstantBuffer, 0);
+
+
 }
 
 void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
@@ -139,8 +174,9 @@ void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	m_pDevCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_pDevCon->VSSetShader(m_pVertexShader, nullptr, 0);
-	m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
 
+	m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
+	m_pDevCon->PSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 
 	m_pDevCon->DrawIndexed(6, 0, 0);
 }

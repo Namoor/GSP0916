@@ -138,6 +138,7 @@ int System::Run(IScene* p_pScene)
 			{
 				QuitCode = _msg.wParam;
 				Running = false;
+				return QuitCode;
 			}
 		}
 
