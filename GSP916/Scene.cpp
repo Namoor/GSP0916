@@ -16,19 +16,22 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	m_pPixelShader = nullptr;
 	m_pVertexShader = nullptr;
 	m_pInputLayout = nullptr;
+
+	m_pSpriteBatch = new SpriteBatch();
+	m_pSpriteBatch->Init(m_pDevice, m_pDevCon);
 	
 	MyVertex _VertexBuffer[4];
 	_VertexBuffer[0].Position = XMFLOAT3(-0.5f, -0.5f, 0);
-	_VertexBuffer[0].Color = XMFLOAT3(1, 0.3f, 0.3f);
+	_VertexBuffer[0].Color = XMFLOAT3(1, 0, 0);
 
 	_VertexBuffer[1].Position = XMFLOAT3( 0.5f, -0.5f, 0);
-	_VertexBuffer[1].Color = XMFLOAT3(0.3f, 1, 0.3f);
+	_VertexBuffer[1].Color = XMFLOAT3(0, 1, 0);
 
 	_VertexBuffer[2].Position = XMFLOAT3( 0.5f,  0.5f, 0);
-	_VertexBuffer[2].Color = XMFLOAT3(1, 0.3f, 0.3f);
+	_VertexBuffer[2].Color = XMFLOAT3(0, 0, 1);
 
 	_VertexBuffer[3].Position = XMFLOAT3(-0.5f,  0.5f, 0);
-	_VertexBuffer[3].Color = XMFLOAT3(0.3f, 1, 0.3f);
+	_VertexBuffer[3].Color = XMFLOAT3(1, 1, 1);
 
 	unsigned int _IndexBuffer[6];
 	//Triangle 1
@@ -148,8 +151,8 @@ void Scene2D::Update()
 	XMFLOAT4 _Color;
 
 	_Color.x = 1;
-	_Color.y = 0.3f;
-	_Color.z = 0.3f;
+	_Color.y = 1;
+	_Color.z = 1;
 	_Color.w = 1;
 
 	D3D11_MAPPED_SUBRESOURCE _MSR;
@@ -179,4 +182,19 @@ void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	m_pDevCon->PSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 
 	m_pDevCon->DrawIndexed(6, 0, 0);
+
+
+
+	m_pSpriteBatch->Begin();
+
+	m_pSpriteBatch->Draw(Rect(0, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	m_pSpriteBatch->Draw(Rect(200, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	m_pSpriteBatch->Draw(Rect(250, 100, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	m_pSpriteBatch->Draw(Rect(0, 200, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	m_pSpriteBatch->Draw(Rect(400, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	m_pSpriteBatch->Draw(Rect(0, 400, 100, 100), XMFLOAT4(1, 1, 1, 1));
+
+
+	m_pSpriteBatch->End();
+
 }

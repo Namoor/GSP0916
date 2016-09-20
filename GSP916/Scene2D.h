@@ -1,5 +1,7 @@
 #pragma once
 #include "IScene.h"
+#include "SpriteBatch.h"
+
 
 class Scene2D : public IScene
 {
@@ -21,4 +23,6 @@ private:
 	ID3D11InputLayout* m_pInputLayout;
 
 	ID3D11Buffer* m_pConstantBuffer;
+
+	SpriteBatch* m_pSpriteBatch;
 };

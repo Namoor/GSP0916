@@ -25,6 +25,15 @@
     <Filter Include="Source Files\Scene\Scene2D">
       <UniqueIdentifier>{82ac5fa5-15f4-4321-b4e4-9d69bf6f68c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{70400212-126c-4e7c-b997-9c7d895436ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\SpriteBatch">
+      <UniqueIdentifier>{6608ab96-7438-49ba-bd2f-a841bdd49c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper">
+      <UniqueIdentifier>{e1a10c15-e027-4454-9fee-d62c3ad70104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -35,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scene\Scene2D</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteBatch.cpp">
+      <Filter>Source Files\Components\SpriteBatch</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +65,12 @@
     <ClInclude Include="IScene.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteBatch.h">
+      <Filter>Source Files\Components\SpriteBatch</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Source Files\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VShader.hlsl">
@@ -57,6 +78,9 @@
     </FxCompile>
     <FxCompile Include="PShader.hlsl">
       <Filter>Source Files\Scene\Scene2D</Filter>
+    </FxCompile>
+    <FxCompile Include="SpriteBatch.hlsl">
+      <Filter>Source Files\Components\SpriteBatch</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
