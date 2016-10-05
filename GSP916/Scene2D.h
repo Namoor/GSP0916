@@ -1,7 +1,8 @@
 #pragma once
 #include "IScene.h"
 #include "SpriteBatch.h"
-
+#include "Texture.h"
+#include "SpriteFont.h"
 
 class Scene2D : public IScene
 {
@@ -24,5 +25,9 @@ private:
 
 	ID3D11Buffer* m_pConstantBuffer;
 
+	Texture* m_pTexture;
+	ID3D11SamplerState* m_pTextureSampleState;
+
 	SpriteBatch* m_pSpriteBatch;
+	SpriteFont* m_pCalibri;
 };

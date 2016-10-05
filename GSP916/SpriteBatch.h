@@ -3,12 +3,14 @@
 #include "d3dinclude.h"
 #include "Rectangle.h"
 #include <list>
+#include "Texture.h"
 
 #define DRAWCOMMANDBATCHSIZE 1024
 
 struct SpriteRenderCommand
 {
 	Rect m_Destination;
+	Rect m_Source;
 	XMFLOAT4 m_Color;
 };
 
@@ -21,7 +23,10 @@ public:
 	void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon);
 
 	void Begin();
-	void Draw(Rect p_Destination, XMFLOAT4 p_Color);
+	void Draw(Texture* p_pTexture, Rect p_Destination, Rect p_Source, XMFLOAT4 p_Color);
+	void Draw(Texture* p_pTexture, Rect p_Destination, XMFLOAT4 p_Color);
+	void Draw(Texture* p_pTexture, Rect p_Destination, Rect p_Source);
+	void Draw(Texture* p_pTexture, Rect p_Destination);
 	void End();
 
 private:
@@ -35,6 +40,13 @@ private:
 	ID3D11VertexShader* m_pVertexShader;
 	ID3D11PixelShader* m_pPixelShader;
 
+	ID3D11BlendState* m_pBlendState;
+
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pDevCon;
+	
+
+
+
+	Texture* m_pCurrentTexture;
 };

@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Helper">
       <UniqueIdentifier>{e1a10c15-e027-4454-9fee-d62c3ad70104}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Texture">
+      <UniqueIdentifier>{1391432f-2183-4234-ae5a-3fdaa9368141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\SpriteFont">
+      <UniqueIdentifier>{d0171834-4b00-4802-b4dd-974854b1a9e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
       <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Components\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteFont.cpp">
+      <Filter>Source Files\Components\SpriteFont</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="Rectangle.h">
       <Filter>Source Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Source Files\Components\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteFont.h">
+      <Filter>Source Files\Components\SpriteFont</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

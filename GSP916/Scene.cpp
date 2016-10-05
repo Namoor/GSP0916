@@ -17,21 +17,26 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	m_pVertexShader = nullptr;
 	m_pInputLayout = nullptr;
 
+	m_pTexture = new Texture(p_pDevice, L"HappyFace.bmp");
+
 	m_pSpriteBatch = new SpriteBatch();
 	m_pSpriteBatch->Init(m_pDevice, m_pDevCon);
+
+	m_pCalibri = new SpriteFont();
+	m_pCalibri->Load("Calibri.fnt", m_pDevice);
 	
 	MyVertex _VertexBuffer[4];
 	_VertexBuffer[0].Position = XMFLOAT3(-0.5f, -0.5f, 0);
-	_VertexBuffer[0].Color = XMFLOAT3(1, 0, 0);
+	_VertexBuffer[0].Color = XMFLOAT3(0, 1, 0);
 
 	_VertexBuffer[1].Position = XMFLOAT3( 0.5f, -0.5f, 0);
-	_VertexBuffer[1].Color = XMFLOAT3(0, 1, 0);
+	_VertexBuffer[1].Color = XMFLOAT3(1, 1, 0);
 
 	_VertexBuffer[2].Position = XMFLOAT3( 0.5f,  0.5f, 0);
-	_VertexBuffer[2].Color = XMFLOAT3(0, 0, 1);
+	_VertexBuffer[2].Color = XMFLOAT3(1, 0, 0);
 
 	_VertexBuffer[3].Position = XMFLOAT3(-0.5f,  0.5f, 0);
-	_VertexBuffer[3].Color = XMFLOAT3(1, 1, 1);
+	_VertexBuffer[3].Color = XMFLOAT3(0, 0, 0);
 
 	unsigned int _IndexBuffer[6];
 	//Triangle 1
@@ -144,15 +149,36 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 
 	m_pDevice->CreateBuffer(&_CBDesc, nullptr, &m_pConstantBuffer);
 
+
+	D3D11_SAMPLER_DESC _SD;
+	ZeroMemory(&_SD, sizeof(_SD));
+
+	_SD.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	_SD.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	_SD.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	_SD.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	_SD.MinLOD = -FLT_MAX;
+	_SD.MaxLOD = FLT_MAX;
+	_SD.MipLODBias = 0.0f;
+	_SD.MaxAnisotropy = 1;
+	_SD.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	_SD.BorderColor[0] = 0;
+	_SD.BorderColor[1] = 0;
+	_SD.BorderColor[2] = 1;
+	_SD.BorderColor[3] = 1;
+
+
+	m_pDevice->CreateSamplerState(&_SD, &m_pTextureSampleState);
+
 }
 
 void Scene2D::Update()
 {
 	XMFLOAT4 _Color;
 
-	_Color.x = 1;
-	_Color.y = 1;
-	_Color.z = 1;
+	_Color.x = 0.9f;
+	_Color.y = 0.5f;
+	_Color.z = 0.2f;
 	_Color.w = 1;
 
 	D3D11_MAPPED_SUBRESOURCE _MSR;
@@ -165,36 +191,39 @@ void Scene2D::Update()
 
 void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 {
-	UINT stride = sizeof(MyVertex);
-	UINT offset = 0;
-
-	
-
-	m_pDevCon->IASetVertexBuffers(0, 1, &m_pVBuffer, &stride, &offset);
-	m_pDevCon->IASetIndexBuffer(m_pIBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-
-	m_pDevCon->IASetInputLayout(m_pInputLayout);
-	m_pDevCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_pDevCon->VSSetShader(m_pVertexShader, nullptr, 0);
-
-	m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
-	m_pDevCon->PSSetConstantBuffers(0, 1, &m_pConstantBuffer);
-
-	m_pDevCon->DrawIndexed(6, 0, 0);
+	//UINT stride = sizeof(MyVertex);
+	//UINT offset = 0;
+	//
+	//
+	//
+	//m_pDevCon->IASetVertexBuffers(0, 1, &m_pVBuffer, &stride, &offset);
+	//m_pDevCon->IASetIndexBuffer(m_pIBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+	//
+	//m_pDevCon->IASetInputLayout(m_pInputLayout);
+	//m_pDevCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//
+	//m_pDevCon->VSSetShader(m_pVertexShader, nullptr, 0);
+	//
+	//m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
+	//m_pDevCon->PSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+	//m_pDevCon->PSSetShaderResources(0, 1, &m_pTexture);
+	//m_pDevCon->PSSetSamplers(0, 1, &m_pTextureSampleState);
+	//
+	//m_pDevCon->DrawIndexed(6, 0, 0);
 
 
 
 	m_pSpriteBatch->Begin();
 
-	m_pSpriteBatch->Draw(Rect(0, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
-	m_pSpriteBatch->Draw(Rect(200, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
-	m_pSpriteBatch->Draw(Rect(250, 100, 100, 100), XMFLOAT4(1, 1, 1, 1));
-	m_pSpriteBatch->Draw(Rect(0, 200, 100, 100), XMFLOAT4(1, 1, 1, 1));
-	m_pSpriteBatch->Draw(Rect(400, 0, 100, 100), XMFLOAT4(1, 1, 1, 1));
-	m_pSpriteBatch->Draw(Rect(0, 400, 100, 100), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(Rect(4, 4, 800 - 8, 600 - 8), Rect(0,0,0,0), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(m_pTexture, Rect(200, 0, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(m_pTexture, Rect(250, 100, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(m_pTexture, Rect(0, 200, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(m_pTexture, Rect(400, 0, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
+	//m_pSpriteBatch->Draw(m_pTexture, Rect(0, 400, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
+
+	m_pSpriteBatch->Draw(m_pTexture, Rect(0, 0, 500, 500), Rect(0,0,300,200), XMFLOAT4(0,0,1,0.5f));
 
 
 	m_pSpriteBatch->End();
-
 }
