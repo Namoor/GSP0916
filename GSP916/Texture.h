@@ -5,6 +5,7 @@ class Texture
 {
 public:
 	Texture(ID3D11Device* p_pDevice, wchar_t* p_pFilename);
+	Texture(ID3D11Device* p_pDevice, char* p_pFilename);
 
 	ID3D11ShaderResourceView* GetSRV();
 	POINT GetSize();

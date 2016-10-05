@@ -40,6 +40,18 @@
     <Filter Include="Source Files\Components\SpriteFont">
       <UniqueIdentifier>{d0171834-4b00-4802-b4dd-974854b1a9e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\FPSDisplay">
+      <UniqueIdentifier>{0118ec50-eb1b-4a41-95ea-0a19bc01991b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Scene3D">
+      <UniqueIdentifier>{fa8453dd-0fb9-426d-95e0-ed8c804c901a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3DObjects">
+      <UniqueIdentifier>{1260203f-e919-42cc-bad9-49a6ec2311c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3DObjects\First3DObject">
+      <UniqueIdentifier>{5e39d388-6269-4b95-b054-ea1d5c4f06ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -62,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="SpriteFont.cpp">
       <Filter>Source Files\Components\SpriteFont</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSDisplay.cpp">
+      <Filter>Source Files\Components\FPSDisplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene3D.cpp">
+      <Filter>Source Files\Scene\Scene3D</Filter>
+    </ClCompile>
+    <ClCompile Include="First3DObject.cpp">
+      <Filter>Source Files\3DObjects\First3DObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +110,15 @@
     <ClInclude Include="SpriteFont.h">
       <Filter>Source Files\Components\SpriteFont</Filter>
     </ClInclude>
+    <ClInclude Include="FPSDisplay.h">
+      <Filter>Source Files\Components\FPSDisplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene3D.h">
+      <Filter>Source Files\Scene\Scene3D</Filter>
+    </ClInclude>
+    <ClInclude Include="First3DObject.h">
+      <Filter>Source Files\3DObjects\First3DObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VShader.hlsl">
@@ -99,6 +129,9 @@
     </FxCompile>
     <FxCompile Include="SpriteBatch.hlsl">
       <Filter>Source Files\Components\SpriteBatch</Filter>
+    </FxCompile>
+    <FxCompile Include="First3DShader.hlsl">
+      <Filter>Source Files\3DObjects\First3DObject</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

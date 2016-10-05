@@ -3,13 +3,14 @@
 #include "SpriteBatch.h"
 #include "Texture.h"
 #include "SpriteFont.h"
+#include "FPSDisplay.h"
 
 class Scene2D : public IScene
 {
 public:
 	virtual void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon) override;
 
-	virtual void Update() override;
+	virtual void Update(float p_DeltaTime) override;
 	virtual void Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon) override;
 
 private:
@@ -30,4 +31,6 @@ private:
 
 	SpriteBatch* m_pSpriteBatch;
 	SpriteFont* m_pCalibri;
+
+	FPSDisplay* m_pFPS;
 };

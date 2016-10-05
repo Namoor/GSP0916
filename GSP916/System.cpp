@@ -1,6 +1,7 @@
 #include "System.h"
 
 #include <Windows.h>
+#include <time.h>
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT p_Type, WPARAM p_WParam, LPARAM p_LParam)
 {
@@ -126,6 +127,8 @@ int System::Run(IScene* p_pScene)
 	MSG _msg;
 	int Frames = 0;
 
+	clock_t _Time = clock();
+
 	while (Running)
 	{
 		// Fenster Updaten
@@ -142,10 +145,12 @@ int System::Run(IScene* p_pScene)
 			}
 		}
 
-
-
+		clock_t _NewTime = clock();
+		clock_t _Delta = _NewTime - _Time;
+		float DeltaTime = (float)_Delta / CLOCKS_PER_SEC;
+		_Time = _NewTime;
 		// Scene Updaten
-		p_pScene->Update();
+		p_pScene->Update(DeltaTime);
 
 		Frames++;
 

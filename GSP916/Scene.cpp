@@ -24,6 +24,8 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 
 	m_pCalibri = new SpriteFont();
 	m_pCalibri->Load("Calibri.fnt", m_pDevice);
+
+	m_pFPS = new FPSDisplay();
 	
 	MyVertex _VertexBuffer[4];
 	_VertexBuffer[0].Position = XMFLOAT3(-0.5f, -0.5f, 0);
@@ -172,7 +174,7 @@ void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 
 }
 
-void Scene2D::Update()
+void Scene2D::Update(float p_DeltaTime)
 {
 	XMFLOAT4 _Color;
 
@@ -186,7 +188,7 @@ void Scene2D::Update()
 	memcpy(_MSR.pData, &_Color, sizeof(XMFLOAT4));
 	m_pDevCon->Unmap(m_pConstantBuffer, 0);
 
-
+	m_pFPS->Update(p_DeltaTime);
 }
 
 void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
@@ -222,8 +224,16 @@ void Scene2D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	//m_pSpriteBatch->Draw(m_pTexture, Rect(400, 0, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
 	//m_pSpriteBatch->Draw(m_pTexture, Rect(0, 400, 100, 100), Rect(0, 0, 499, 396), XMFLOAT4(1, 1, 1, 1));
 
-	m_pSpriteBatch->Draw(m_pTexture, Rect(0, 0, 500, 500), Rect(0,0,300,200), XMFLOAT4(0,0,1,0.5f));
+	for (int x = 0; x < 1; x++)
+	{
+		//m_pSpriteBatch->Draw(m_pTexture, Rect(0, 0, 500, 500), Rect(0, 0, 300, 200), XMFLOAT4(0, 0, 1, 0.5f));
 
+		m_pSpriteBatch->DrawString(m_pCalibri, "the quick brown fox jumps over the lazy dog", 10, 10, 32, XMFLOAT4(1, 1, 1, 1));
+		m_pSpriteBatch->DrawString(m_pCalibri, "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG", 10, 50, 32, XMFLOAT4(1, 1, 1, 1));
+
+		m_pSpriteBatch->DrawString(m_pCalibri, "?!öÖüÜäÄß*+~#'\\/={}[]()&%$§\"-_.:,;", 10, 100, 32, XMFLOAT4(1, 1, 1, 1));
+	}
+	m_pFPS->Render(m_pSpriteBatch, m_pCalibri, 0, 0);
 
 	m_pSpriteBatch->End();
 }

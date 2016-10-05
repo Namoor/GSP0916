@@ -161,6 +161,47 @@ void SpriteBatch::Begin()
 }
 
 
+void SpriteBatch::DrawString(SpriteFont* p_pFont, const char* p_pText, float p_X, float p_Y, float p_Size, XMFLOAT4 p_Color)
+{
+	int _LetterCount = strlen(p_pText);
+
+	for (int x = 0; x < _LetterCount; x++)
+	{
+		int _Character = p_pText[x];
+		if (_Character == ' ')
+		{
+			p_X += 10;
+			continue;
+		}
+
+		if (_Character == 'ö')
+			int asd = 0;
+
+		if (_Character < 0)
+			_Character += 256;
+
+		CharDesc _Desc = p_pFont->m_Chars[_Character];
+
+		Rect _Source;
+		_Source.x = _Desc.m_X;
+		_Source.y = _Desc.m_Y;
+		_Source.height = _Desc.m_Height;
+		_Source.width = _Desc.m_Width;
+
+		Rect _Destination;
+		_Destination.x = p_X;
+		_Destination.y = p_Y + _Desc.RelativeOffsetY * p_Size;
+		_Destination.height = _Desc.RelativeHeight * p_Size;
+		_Destination.width = _Desc.RelativeWidth * p_Size;
+
+
+		Draw(p_pFont->m_pTexture, _Destination, _Source, p_Color);
+
+		p_X += _Desc.RelativeWidth * p_Size;
+	}
+}
+
+
 void SpriteBatch::Draw(Texture* p_pTexture, Rect p_Destination, XMFLOAT4 p_Color)
 {
 	Draw(p_pTexture, p_Destination, Rect(0,0, p_pTexture->GetXSize(), p_pTexture->GetYSize()), p_Color);

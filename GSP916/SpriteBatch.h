@@ -4,6 +4,7 @@
 #include "Rectangle.h"
 #include <list>
 #include "Texture.h"
+#include "SpriteFont.h"
 
 #define DRAWCOMMANDBATCHSIZE 1024
 
@@ -23,11 +24,14 @@ public:
 	void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon);
 
 	void Begin();
+	void End();
+
 	void Draw(Texture* p_pTexture, Rect p_Destination, Rect p_Source, XMFLOAT4 p_Color);
 	void Draw(Texture* p_pTexture, Rect p_Destination, XMFLOAT4 p_Color);
 	void Draw(Texture* p_pTexture, Rect p_Destination, Rect p_Source);
 	void Draw(Texture* p_pTexture, Rect p_Destination);
-	void End();
+
+	void DrawString(SpriteFont* p_pFont, const char* p_pText, float p_X, float p_Y, float p_Size, XMFLOAT4 p_Color);
 
 private:
 	std::list<SpriteRenderCommand> m_DrawCommands;
