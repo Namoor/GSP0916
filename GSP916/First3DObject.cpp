@@ -1,6 +1,7 @@
 #include "First3DObject.h"
 
 
+
 struct First3DVertex
 {
 	XMFLOAT3 Position;
@@ -28,32 +29,39 @@ void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon
 	ZeroMemory(&_VBDesc, sizeof(_VBDesc));
 
 	_VBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-	_VBDesc.ByteWidth = 6 * sizeof(First3DVertex);
+	_VBDesc.ByteWidth = 8 * sizeof(First3DVertex);
 	_VBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 	_VBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 
 	m_pDevice->CreateBuffer(&_VBDesc, nullptr, &m_pVertexBuffer);
 
-	First3DVertex _Vertices[6];
-	_Vertices[0].Position = XMFLOAT3(-0.5f, -0.5f, 0);
-	_Vertices[0].Color = XMFLOAT4(0, 1, 0, 1);
-	_Vertices[1].Position = XMFLOAT3(-0.5f, 0.5f, 0);
+	First3DVertex _Vertices[8];
+	// Vorne
+	_Vertices[0].Position = XMFLOAT3(-0.5f, -0.5f, -0.5f);
+	_Vertices[0].Color = XMFLOAT4(0, 0, 0, 1);
+	_Vertices[1].Position = XMFLOAT3(-0.5f, 0.5f, -0.5f);
 	_Vertices[1].Color = XMFLOAT4(0, 1, 0, 1);
 
-	_Vertices[2].Position = XMFLOAT3(0.5f, -0.5f, 0);
-	_Vertices[2].Color = XMFLOAT4(1, 1, 1, 1);
-	_Vertices[3].Position = XMFLOAT3(0.5f, 0.5f, 0);
-	_Vertices[3].Color = XMFLOAT4(1, 1, 1, 1);
+	_Vertices[2].Position = XMFLOAT3(0.5f, 0.5f, -0.5f);
+	_Vertices[2].Color = XMFLOAT4(1, 1, 0, 1);
+	_Vertices[3].Position = XMFLOAT3(0.5f, -0.5f, -0.5f);
+	_Vertices[3].Color = XMFLOAT4(1, 0, 0, 1);
 
-	_Vertices[4].Position = XMFLOAT3(1, -0.5f, 1);
+	// Hinten
+	_Vertices[4].Position = XMFLOAT3(-0.5f, -0.5f, 0.5f);
 	_Vertices[4].Color = XMFLOAT4(0, 0, 1, 1);
-	_Vertices[5].Position = XMFLOAT3(1, 0.5f, 1);
-	_Vertices[5].Color = XMFLOAT4(0, 0, 1, 1);
+	_Vertices[5].Position = XMFLOAT3(-0.5f, 0.5f, 0.5f);
+	_Vertices[5].Color = XMFLOAT4(0, 1, 1, 1);
+
+	_Vertices[6].Position = XMFLOAT3(0.5f, 0.5f, 0.5f);
+	_Vertices[6].Color = XMFLOAT4(1, 1, 1, 1);
+	_Vertices[7].Position = XMFLOAT3(0.5f, -0.5f, 0.5f);
+	_Vertices[7].Color = XMFLOAT4(1, 0, 1, 1);
 
 	D3D11_MAPPED_SUBRESOURCE _VMSR;
 
 	m_pDevCon->Map(m_pVertexBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_VMSR);
-	memcpy(_VMSR.pData, _Vertices, 6 * sizeof(First3DVertex));
+	memcpy(_VMSR.pData, _Vertices, 8 * sizeof(First3DVertex));
 	m_pDevCon->Unmap(m_pVertexBuffer, 0);
 
 	// IndexBuffer
@@ -61,34 +69,60 @@ void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon
 	ZeroMemory(&_IBDesc, sizeof(_IBDesc));
 
 	_IBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-	_IBDesc.ByteWidth = 4 * 3 * sizeof(unsigned int);
+	_IBDesc.ByteWidth = 12 * 3 * sizeof(unsigned int);
 	_IBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 	_IBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 
 	m_pDevice->CreateBuffer(&_IBDesc, nullptr, &m_pIndexBuffer);
 
-	unsigned int _Indices[12];
+	unsigned int _Indices[36];
 
-	_Indices[0] = 0; // Triangle 0
+	_Indices[0] = 0; // Front
 	_Indices[1] = 1;
-	_Indices[2] = 2;
-
-	_Indices[3] = 2; // Triangle 1
+	_Indices[2] = 3;
+	_Indices[3] = 3; 
 	_Indices[4] = 1;
-	_Indices[5] = 3;
+	_Indices[5] = 2;
 
-	_Indices[6] = 2; // Triangle 2
-	_Indices[7] = 3;
-	_Indices[8] = 4;
+	_Indices[6] = 3; // Right
+	_Indices[7] = 2;
+	_Indices[8] = 7;
+	_Indices[9] = 7;
+	_Indices[10] = 2;
+	_Indices[11] = 6;
 
-	_Indices[9] = 4; // Triangle 3
-	_Indices[10] = 3;
-	_Indices[11] = 5;
+	_Indices[12] = 1; // Top
+	_Indices[13] = 5;
+	_Indices[14] = 2;
+	_Indices[15] = 2;
+	_Indices[16] = 5;
+	_Indices[17] = 6;
+
+	_Indices[18] = 0; // Left
+	_Indices[19] = 4;
+	_Indices[20] = 1;
+	_Indices[21] = 4;
+	_Indices[22] = 5;
+	_Indices[23] = 1;
+
+	_Indices[24] = 4; // Back
+	_Indices[25] = 7;
+	_Indices[26] = 5;
+	_Indices[27] = 7;
+	_Indices[28] = 6;
+	_Indices[29] = 5;
+
+	_Indices[30] = 0; // Back
+	_Indices[31] = 3;
+	_Indices[32] = 4;
+	_Indices[33] = 3;
+	_Indices[34] = 7;
+	_Indices[35] = 4;
 
 	D3D11_MAPPED_SUBRESOURCE _IMSR;
 
 	m_pDevCon->Map(m_pIndexBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_IMSR);
-	memcpy(_IMSR.pData, _Indices, 4 * 3 * sizeof(unsigned int));
+	memcpy(_IMSR.pData, _Indices, 12 * 3 * sizeof(unsigned int));
 	m_pDevCon->Unmap(m_pIndexBuffer, 0);
 
 	// VertexShader
@@ -146,10 +180,40 @@ void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon
 	_IED[1].SemanticIndex = 0;
 
 	m_pDevice->CreateInputLayout(_IED, 2, _pVShaderCode->GetBufferPointer(), _pVShaderCode->GetBufferSize(), &m_pInputLayout);
+
+	D3D11_BUFFER_DESC _MBD;
+	ZeroMemory(&_MBD, sizeof(_MBD));
+
+	_MBD.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+	_MBD.ByteWidth = sizeof(XMMATRIX);
+	_MBD.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+	_MBD.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+
+	m_pDevice->CreateBuffer(&_MBD, nullptr, &m_pMatrixBuffer);
+
+	CurrentAngle = 0;
 }
 
-void First3DObject::Render()
+
+void First3DObject::Update(float p_DeltaTime)
 {
+	// CurrentAngle += p_DeltaTime * 20;
+
+	
+}
+
+void First3DObject::Render(Camera* p_pCamera)
+{
+	XMMATRIX _WorldMatrix = XMMatrixScaling(1, 1, 1) * XMMatrixRotationY(XMConvertToRadians(CurrentAngle)) *XMMatrixTranslation(0, 0, 0);
+
+
+	XMMATRIX _WorldViewProjection = _WorldMatrix * p_pCamera->GetViewMatrix() * p_pCamera->GetProjectionMatrix();
+
+	D3D11_MAPPED_SUBRESOURCE _MSR;
+	m_pDevCon->Map(m_pMatrixBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_MSR);
+	memcpy(_MSR.pData, &_WorldViewProjection, sizeof(XMMATRIX));
+	m_pDevCon->Unmap(m_pMatrixBuffer, 0);
+
 	unsigned int _Stride = sizeof(First3DVertex);
 	unsigned int _Offset = 0;
 
@@ -160,7 +224,9 @@ void First3DObject::Render()
 	m_pDevCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_pDevCon->VSSetShader(m_pVertexShader, nullptr, 0);
+	m_pDevCon->VSSetConstantBuffers(0, 1, &m_pMatrixBuffer);
+
 	m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
 
-	m_pDevCon->DrawIndexed(12, 0, 0);
+	m_pDevCon->DrawIndexed(36, 0, 0);
 }

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "d3dinclude.h"
 #include "IScene.h"
+#include "Input.h"
 
 class System
 {
@@ -25,4 +26,6 @@ private:
 	ID3D11DeviceContext* m_pDeviceContext; // Würfel Rendern
 
 	ID3D11RenderTargetView* m_pScreen;
+
+	Input* m_pInput;
 };

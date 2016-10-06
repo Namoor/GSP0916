@@ -11,13 +11,18 @@ struct VSOutput // = PSInput
 };
 
 
+cbuffer MatrixBuffer
+{
+	float4x4 RotationsMatrix;
+};
+
 
 // VertexShader
 VSOutput VShader(VSInput p_Input)
 {
 	VSOutput _Out;
 
-	_Out.Position = float4(p_Input.Position, 1);
+	_Out.Position = mul(RotationsMatrix, float4(p_Input.Position, 1));
 	_Out.Color = p_Input.Color;
 
 	return _Out;

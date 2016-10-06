@@ -332,4 +332,6 @@ void SpriteBatch::End()
 
 	m_DrawCommands.clear();
 	m_DrawCommandCount = 0;
+
+	delete[] _Vertices;
 }

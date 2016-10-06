@@ -115,6 +115,8 @@ void System::Init()
 {
 	InitWindow();
 	InitGraphics();
+
+	m_pInput = new Input();
 }
 
 
@@ -144,6 +146,8 @@ int System::Run(IScene* p_pScene)
 				return QuitCode;
 			}
 		}
+
+		m_pInput->Update();
 
 		clock_t _NewTime = clock();
 		clock_t _Delta = _NewTime - _Time;

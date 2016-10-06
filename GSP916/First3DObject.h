@@ -1,6 +1,8 @@
 #pragma once
 #include "d3dinclude.h"
 
+#include "Camera.h"
+
 class First3DObject
 {
 public:
@@ -8,7 +10,9 @@ public:
 
 	void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon);
 
-	void Render();
+	void Update(float p_DeltaTime);
+
+	void Render(Camera* p_pCamera);
 
 private:
 	ID3D11Device* m_pDevice;
@@ -19,4 +23,8 @@ private:
 	ID3D11VertexShader* m_pVertexShader;
 	ID3D11PixelShader* m_pPixelShader;
 	ID3D11InputLayout* m_pInputLayout;
+	ID3D11Buffer* m_pMatrixBuffer;
+
+
+	float CurrentAngle;
 };

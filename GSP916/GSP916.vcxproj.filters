@@ -52,6 +52,12 @@
     <Filter Include="Source Files\3DObjects\First3DObject">
       <UniqueIdentifier>{5e39d388-6269-4b95-b054-ea1d5c4f06ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Camera">
+      <UniqueIdentifier>{60167552-9a6a-4fab-965b-e72523de9fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Input">
+      <UniqueIdentifier>{5df02092-d897-4811-9e89-3a8e1f773fd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -83,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="First3DObject.cpp">
       <Filter>Source Files\3DObjects\First3DObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Components\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Components\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="First3DObject.h">
       <Filter>Source Files\3DObjects\First3DObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source Files\Components\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Source Files\Components\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

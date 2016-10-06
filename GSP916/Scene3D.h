@@ -6,6 +6,8 @@
 #include "SpriteFont.h"
 #include "First3DObject.h"
 
+#include "Camera.h"
+
 class Scene3D : public IScene
 {
 public:
@@ -20,4 +22,6 @@ private:
 	FPSDisplay* m_pFPSDisplay;
 
 	First3DObject* m_pFirstObject;
+
+	Camera* m_pCamera;
 };
