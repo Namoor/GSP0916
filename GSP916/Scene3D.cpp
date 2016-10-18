@@ -16,9 +16,11 @@ void Scene3D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 	m_pFirstObject->Init(p_pDevice, p_pDevCon);
 
 
-	
-	m_pCamera = new Camera();
 
+	m_pCamera = new Camera(XMFLOAT3(0, 0, 0), XMFLOAT3(0, -1, 1), 5);
+
+
+	Input::SetMousePosition(XMFLOAT2(500, 400));
 }
 
 void Scene3D::Update(float p_DeltaTime)
@@ -27,16 +29,10 @@ void Scene3D::Update(float p_DeltaTime)
 
 	m_pFirstObject->Update(p_DeltaTime);
 
-	if (Input::GetKey(KeyCode::D))
-		m_pCamera->RotateY(p_DeltaTime * 40, true);
-	if (Input::GetKey(KeyCode::A))
-		m_pCamera->RotateY(-p_DeltaTime * 40, true);
+	
+	m_pCamera->Update(p_DeltaTime);
 
-
-	if (Input::GetKey(KeyCode::W))
-		m_pCamera->RotateX(p_DeltaTime * 40, false);
-	if (Input::GetKey(KeyCode::S))
-		m_pCamera->RotateX(-p_DeltaTime * 40, false);
+	
 }
 
 void Scene3D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)

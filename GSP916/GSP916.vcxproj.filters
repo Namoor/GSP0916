@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Components\Input">
       <UniqueIdentifier>{5df02092-d897-4811-9e89-3a8e1f773fd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Transform">
+      <UniqueIdentifier>{d8ffe6b9-45e0-4207-9430-eefe641a8400}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -95,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Components\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\Components\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Source Files\Components\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Source Files\Components\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

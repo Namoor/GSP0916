@@ -185,9 +185,14 @@ public:
 	Input();
 
 	static bool GetKey(KeyCode::Key p_Key);
+	static bool GetKeyLastFrame(KeyCode::Key p_Key);
+	static XMFLOAT2 GetMousePosition();
+	static void SetMousePosition(XMFLOAT2 p_Position);
+
 
 	void Update();
 
 	static bool s_KeyIsPressed[256];
+	static bool s_KeyWasPressed[256];
 
 };

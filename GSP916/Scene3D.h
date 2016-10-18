@@ -24,4 +24,5 @@ private:
 	First3DObject* m_pFirstObject;
 
 	Camera* m_pCamera;
+
 };

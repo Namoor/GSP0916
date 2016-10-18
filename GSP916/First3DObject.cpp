@@ -21,6 +21,8 @@ First3DObject::First3DObject()
 
 void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 {
+	m_pTransform = new Transform(XMFLOAT3(2, 0, 0), XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1));
+
 	m_pDevCon = p_pDevCon;
 	m_pDevice = p_pDevice;
 
@@ -198,8 +200,8 @@ void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon
 void First3DObject::Update(float p_DeltaTime)
 {
 	// CurrentAngle += p_DeltaTime * 20;
-
-	
+	//m_pTransform->Move(XMFLOAT3(p_DeltaTime, 0, 0), false);
+	m_pTransform->RotateAround(XMFLOAT3(0, 1, 0), p_DeltaTime * 20, true);
 }
 
 void First3DObject::Render(Camera* p_pCamera)
@@ -207,7 +209,7 @@ void First3DObject::Render(Camera* p_pCamera)
 	XMMATRIX _WorldMatrix = XMMatrixScaling(1, 1, 1) * XMMatrixRotationY(XMConvertToRadians(CurrentAngle)) *XMMatrixTranslation(0, 0, 0);
 
 
-	XMMATRIX _WorldViewProjection = _WorldMatrix * p_pCamera->GetViewMatrix() * p_pCamera->GetProjectionMatrix();
+	XMMATRIX _WorldViewProjection = m_pTransform->GetMatrix() * p_pCamera->GetViewMatrix() * p_pCamera->GetProjectionMatrix();
 
 	D3D11_MAPPED_SUBRESOURCE _MSR;
 	m_pDevCon->Map(m_pMatrixBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_MSR);
