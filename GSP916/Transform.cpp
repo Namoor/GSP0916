@@ -59,6 +59,31 @@ XMMATRIX Transform::GetMatrix()
 }
 
 
+XMMATRIX Transform::GetInvertTranspose()
+{
+	// Transpose:
+	// Scale unaffected
+	// Rotation inverted
+	// Translation breaks
+
+	// invertieren
+	// scale inverted
+	// rotation inverted
+	// translation inverted
+
+	// transpInv
+	// scale inverted
+	// rotation unaffected
+	// translation breaks
+
+
+	XMMATRIX _Result = XMMatrixInverse(nullptr, m_WorldMatrix);
+	_Result = XMMatrixTranspose(_Result);
+
+	return _Result;
+}
+
+
 XMVECTOR Transform::GetRight()
 {
 	XMFLOAT3 _Root3(0, 0, 0);
@@ -110,7 +135,7 @@ void Transform::operator delete(void* p_Ptr)
 }
 
 
-void* Transform::operator new(unsigned int Size)
+void* Transform::operator new(size_t Size)
 {
 	void* _Ptr = malloc(Size + 16);
 void* _PtrNew = (void*)(((int)_Ptr & 0xFFFFFFF0) + 0x00000010);

@@ -17,6 +17,9 @@ public:
 
 public:
 	XMMATRIX GetMatrix();
+
+	XMMATRIX GetInvertTranspose();
+
 private:
 	XMMATRIX m_WorldMatrix;
 	XMVECTOR Position;
@@ -27,5 +30,5 @@ private:
 
 public:
 	void operator delete(void* p_Ptr);
-	void* operator new(unsigned int Size);
+	void* operator new(size_t Size);
 };

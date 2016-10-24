@@ -32,5 +32,5 @@ private:
 	XMFLOAT2 m_SavedMousePosition;
 public:
 	void operator delete(void* p_Ptr);
-	void* operator new(unsigned int Size);
+	void* operator new(size_t Size);
 };

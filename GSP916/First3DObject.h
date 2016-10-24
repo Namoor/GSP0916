@@ -3,6 +3,8 @@
 
 #include "Camera.h"
 #include "Transform.h"
+#include "Texture.h"
+#include "Mesh.h"
 
 class First3DObject
 {
@@ -26,7 +28,11 @@ private:
 	ID3D11InputLayout* m_pInputLayout;
 	ID3D11Buffer* m_pMatrixBuffer;
 
+	Texture* m_pMainTexture;
+
 	Transform* m_pTransform;
 
 	float CurrentAngle;
+
+	Mesh* m_pMesh;
 };

@@ -162,7 +162,7 @@ void Camera::operator delete(void* p_Ptr)
 }
 
 
-void* Camera::operator new(unsigned int Size)
+void* Camera::operator new(size_t Size)
 {
 	void* _Ptr = malloc(Size + 16);
 	void* _PtrNew = (void*)(((int)_Ptr & 0xFFFFFFF0) + 0x00000010);

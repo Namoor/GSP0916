@@ -61,6 +61,18 @@
     <Filter Include="Source Files\Components\Transform">
       <UniqueIdentifier>{d8ffe6b9-45e0-4207-9430-eefe641a8400}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\GameObject">
+      <UniqueIdentifier>{92611d06-5120-4037-9bdb-dec3d3d0b29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\MeshRenderer">
+      <UniqueIdentifier>{9a2816b4-9621-45b7-8a3b-91238920f6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Material">
+      <UniqueIdentifier>{4c9e6bb6-5224-473a-adcd-3b3e2fa8b4a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Mesh">
+      <UniqueIdentifier>{275b7c37-d8d6-4550-88cc-e704a01f4073}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -101,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Components\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Source Files\Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Source Files\Components\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
