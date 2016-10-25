@@ -8,6 +8,8 @@
 
 #include "Camera.h"
 
+#include "GameObject.h"
+
 class Scene3D : public IScene
 {
 public:
@@ -24,5 +26,8 @@ private:
 	First3DObject* m_pFirstObject;
 
 	Camera* m_pCamera;
+
+	GameObject* m_pGO1;
+	GameObject* m_pGO2;
 
 };
