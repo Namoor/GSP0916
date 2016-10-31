@@ -1,0 +1,72 @@
+﻿Build started 24.10.2016 12:22:50.
+     1>Project "G:\GSP0916\GSP916\GSP916.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt Camera.cpp First3DObject.cpp FPSDisplay.cpp Input.cpp Main.cpp Rectangle.cpp Scene.cpp Scene3D.cpp SpriteBatch.cpp SpriteFont.cpp System.cpp Texture.cpp Transform.cpp
+         Transform.cpp
+     1>g:\gsp0916\gsp916\transform.cpp(116): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\transform.cpp(116): warning C4302: 'type cast': truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\transform.cpp(116): warning C4312: 'type cast': conversion from 'unsigned int' to 'void *' of greater size
+     1>g:\gsp0916\gsp916\transform.cpp(118): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\transform.cpp(118): warning C4302: 'type cast': truncation from 'void *' to 'int'
+         Texture.cpp
+         System.cpp
+     1>g:\gsp0916\gsp916\system.cpp(144): warning C4244: '=': conversion from 'WPARAM' to 'int', possible loss of data
+         SpriteFont.cpp
+         SpriteBatch.cpp
+     1>g:\gsp0916\gsp916\spritebatch.cpp(166): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(186): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(187): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(188): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(189): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(192): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(193): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(194): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(195): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(263): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(264): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(265): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(266): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(292): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(293): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(294): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\spritebatch.cpp(295): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+         Scene3D.cpp
+         Scene.cpp
+         Rectangle.cpp
+         Main.cpp
+         Input.cpp
+     1>g:\gsp0916\gsp916\input.cpp(30): warning C4800: 'SHORT': forcing value to bool 'true' or 'false' (performance warning)
+     1>g:\gsp0916\gsp916\input.cpp(40): warning C4244: 'argument': conversion from 'LONG' to 'float', possible loss of data
+     1>g:\gsp0916\gsp916\input.cpp(46): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+         FPSDisplay.cpp
+     1>g:\gsp0916\gsp916\fpsdisplay.cpp(18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+         First3DObject.cpp
+         Camera.cpp
+     1>g:\gsp0916\gsp916\camera.cpp(168): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\camera.cpp(168): warning C4302: 'type cast': truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\camera.cpp(168): warning C4312: 'type cast': conversion from 'unsigned int' to 'void *' of greater size
+     1>g:\gsp0916\gsp916\camera.cpp(170): warning C4311: 'type cast': pointer truncation from 'void *' to 'int'
+     1>g:\gsp0916\gsp916\camera.cpp(170): warning C4302: 'type cast': truncation from 'void *' to 'int'
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"G:\GSP0916\x64\Debug\GSP916.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"G:\GSP0916\x64\Debug\GSP916.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\GSP0916\x64\Debug\GSP916.lib" /MACHINE:X64 x64\Debug\Camera.obj
+         x64\Debug\First3DObject.obj
+         x64\Debug\FPSDisplay.obj
+         x64\Debug\Input.obj
+         x64\Debug\Main.obj
+         x64\Debug\Rectangle.obj
+         x64\Debug\Scene.obj
+         x64\Debug\Scene3D.obj
+         x64\Debug\SpriteBatch.obj
+         x64\Debug\SpriteFont.obj
+         x64\Debug\System.obj
+         x64\Debug\Texture.obj
+         x64\Debug\Transform.obj
+     1>Texture.obj : error LNK2019: unresolved external symbol "long __cdecl DirectX::CreateWICTextureFromFile(struct ID3D11Device *,wchar_t const *,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *,unsigned __int64)" (?CreateWICTextureFromFile@DirectX@@YAJPEAUID3D11Device@@PEB_WPEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@_K@Z) referenced in function "public: __cdecl Texture::Texture(struct ID3D11Device *,char *)" (??0Texture@@QEAA@PEAUID3D11Device@@PEAD@Z)
+     1>G:\GSP0916\Lib\DirectXTK.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
+     1>G:\GSP0916\x64\Debug\GSP916.exe : fatal error LNK1120: 1 unresolved externals
+     1>Done Building Project "G:\GSP0916\GSP916\GSP916.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:14.95

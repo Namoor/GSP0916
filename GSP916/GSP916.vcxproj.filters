@@ -117,14 +117,17 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Components\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Components\Material</Filter>
-    </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Source Files\Components\MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Components\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Components\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Components\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,14 +176,17 @@
     <ClInclude Include="Mesh.h">
       <Filter>Source Files\Components\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Source Files\Components\Material</Filter>
-    </ClInclude>
     <ClInclude Include="MeshRenderer.h">
       <Filter>Source Files\Components\MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Source Files\Components\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Source Files\Components\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Source Files\Components\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

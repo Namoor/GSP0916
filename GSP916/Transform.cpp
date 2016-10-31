@@ -13,6 +13,11 @@ Transform::Transform(XMFLOAT3 p_Position, XMFLOAT3 p_Rotation, XMFLOAT3 p_Scale)
 		* XMMatrixTranslationFromVector(Position);
 }
 
+void Transform::UpdateMatrix()
+{
+	XMMATRIX m_TransInv = XMMatrixInverse( nullptr, m_WorldMatrix );
+	m_TransInv = XMMatrixTranspose( m_TransInv );
+}
 
 void Transform::RotateAround(XMFLOAT3 Axis, float p_AngleInDegree, bool p_LocalRotationAnchor)
 {
@@ -35,6 +40,7 @@ void Transform::RotateAround(XMFLOAT3 Axis, float p_AngleInDegree, bool p_LocalR
 
 		m_WorldMatrix = m_WorldMatrix * _Rotation;
 	}
+	UpdateMatrix();
 }
 
 void Transform::Move(XMFLOAT3 p_Movement, bool p_InWorldSpace)
@@ -51,6 +57,7 @@ void Transform::Move(XMFLOAT3 p_Movement, bool p_InWorldSpace)
 
 		m_WorldMatrix = _Translation * m_WorldMatrix;
 	}
+	UpdateMatrix( );
 }
 
 XMMATRIX Transform::GetMatrix()
@@ -76,11 +83,8 @@ XMMATRIX Transform::GetInvertTranspose()
 	// rotation unaffected
 	// translation breaks
 
+	return m_TransInv;
 
-	XMMATRIX _Result = XMMatrixInverse(nullptr, m_WorldMatrix);
-	_Result = XMMatrixTranspose(_Result);
-
-	return _Result;
 }
 
 
@@ -125,7 +129,6 @@ XMVECTOR Transform::GetForward()
 
 	return _Forward - _Root;
 }
-
 
 void Transform::operator delete(void* p_Ptr)
 {

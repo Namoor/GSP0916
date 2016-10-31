@@ -20,13 +20,17 @@ public:
 
 	XMMATRIX GetInvertTranspose();
 
+
+
 private:
 	XMMATRIX m_WorldMatrix;
+	XMMATRIX m_TransInv;
 	XMVECTOR Position;
 	XMVECTOR Scale;
 	XMVECTOR Rotation;
 
-
+private:
+	void UpdateMatrix();
 
 public:
 	void operator delete(void* p_Ptr);

@@ -27,7 +27,6 @@ private:
 
 	Camera* m_pCamera;
 
-	GameObject* m_pGO1;
-	GameObject* m_pGO2;
+	GameObject** m_pGOs;
 
 };

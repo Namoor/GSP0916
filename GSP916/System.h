@@ -26,6 +26,7 @@ private:
 	ID3D11DeviceContext* m_pDeviceContext; // Würfel Rendern
 
 	ID3D11RenderTargetView* m_pScreen;
+	ID3D11DepthStencilView* m_pDepthStencil;
 
 	Input* m_pInput;
 };

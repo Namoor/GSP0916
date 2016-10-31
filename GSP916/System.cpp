@@ -96,7 +96,34 @@ void System::InitGraphics()
 
 	m_pGraphicsDevice->CreateRenderTargetView(m_pSwapChainBuffer, nullptr, &m_pScreen);
 
-	m_pDeviceContext->OMSetRenderTargets(1, &m_pScreen, nullptr);
+	D3D11_DEPTH_STENCIL_VIEW_DESC _DSVDesc;
+	ZeroMemory( &_DSVDesc, sizeof(_DSVDesc) );
+
+
+	_DSVDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D32_FLOAT;
+	_DSVDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+
+	ID3D11Texture2D* _pDepthBufferResource = nullptr;
+
+	D3D11_TEXTURE2D_DESC _T2DDesc;
+	ZeroMemory( &_T2DDesc, sizeof(_T2DDesc));
+
+	_T2DDesc.ArraySize = 1;
+	_T2DDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
+	_T2DDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D32_FLOAT;
+	_T2DDesc.Height = 600;
+	_T2DDesc.Width = 800;
+	_T2DDesc.MipLevels = 1;
+	_T2DDesc.SampleDesc.Count = 4;
+
+
+	m_pGraphicsDevice->CreateTexture2D( &_T2DDesc, nullptr, &_pDepthBufferResource );
+
+	m_pGraphicsDevice->CreateDepthStencilView( _pDepthBufferResource, &_DSVDesc, &m_pDepthStencil );
+
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pScreen, m_pDepthStencil);
+
+	
 
 	D3D11_VIEWPORT _Viewport;
 	_Viewport.TopLeftX = 0;
@@ -165,6 +192,7 @@ int System::Run(IScene* p_pScene)
 		_Color[3] = 1;
 
 		m_pDeviceContext->ClearRenderTargetView(m_pScreen, _Color);
+		m_pDeviceContext->ClearDepthStencilView( m_pDepthStencil, D3D11_CLEAR_FLAG::D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 		// Scene Rendern
 		p_pScene->Render(m_pGraphicsDevice, m_pDeviceContext);

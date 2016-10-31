@@ -1,69 +1,97 @@
 #include "Scene3D.h"
 #include "Input.h"
+#include "Shader.h"
 
 
-void Scene3D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
+void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 {
 	m_pSpriteBatch = new SpriteBatch();
-	m_pSpriteBatch->Init(p_pDevice, p_pDevCon);
+	m_pSpriteBatch->Init( p_pDevice, p_pDevCon );
 
 	m_pCalibri = new SpriteFont();
-	m_pCalibri->Load("Calibri.fnt", p_pDevice);
+	m_pCalibri->Load( "Calibri.fnt", p_pDevice );
 
 	m_pFPSDisplay = new FPSDisplay();
 
 	m_pFirstObject = new First3DObject();
-	m_pFirstObject->Init(p_pDevice, p_pDevCon);
+	m_pFirstObject->Init( p_pDevice, p_pDevCon );
 
-	Mesh* _pMesh = Mesh::CreateCubeMesh(p_pDevice, p_pDevCon);
+	m_pGOs = new GameObject*[16 * 16 * 16];
+
+	Mesh* _pMesh = Mesh::CreateCubeMesh( p_pDevice, p_pDevCon );
 
 	// Material
-	Material* _pMaterial = new Material();
-	_pMaterial->LoadShader(L"First3DShader.hlsl", "VShader", "PShader", p_pDevice, p_pDevCon);
+	Shader* _pDiffuseShader = new Shader();
+	_pDiffuseShader->LoadShader( L"First3DShader.hlsl", "VShader", "PShader", p_pDevice, p_pDevCon );
 
-	_pMaterial->AddInputLayoutEntry("POSITION", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("COLOR", 0, 12, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("TEXCOORD", 0, 28, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("NORMAL", 0, 36, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT);
+	_pDiffuseShader->AddInputLayoutEntry( "POSITION", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT );
+	_pDiffuseShader->AddInputLayoutEntry( "COLOR", 0, 12, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT );
+	_pDiffuseShader->AddInputLayoutEntry( "TEXCOORD", 0, 28, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT );
+	_pDiffuseShader->AddInputLayoutEntry( "NORMAL", 0, 36, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT );
 
-	_pMaterial->FinalizeInputLayout();
+	_pDiffuseShader->FinalizeInputLayout();
 
-	m_pGO1 = new GameObject();
-	m_pGO1->Init(p_pDevice, p_pDevCon, _pMesh, _pMaterial);
+	Material* _pSmileyMaterial = new Material( _pDiffuseShader, p_pDevCon );
 
-	m_pGO2 = new GameObject();
-	m_pGO2->Init(p_pDevice, p_pDevCon, _pMesh, _pMaterial);
+	Texture* _pSmileyTexture = new Texture( p_pDevice, "HappyFace.bmp" );
+	_pSmileyMaterial->m_pTexture = _pSmileyTexture;
 
-	m_pGO2->m_pTransform->Move(XMFLOAT3(2, 0, 0), true);
+	Material* _pWoodMaterial = new Material( _pDiffuseShader, p_pDevCon );
 
-	m_pCamera = new Camera(XMFLOAT3(0, 0, 0), XMFLOAT3(0, -1, 1), 5);
+	Texture* _pWoodTexture = new Texture( p_pDevice, "Wood.bmp" );
+	_pWoodMaterial->m_pTexture = _pWoodTexture;
+
+	for (int x = 0; x < 16; x++)
+	for (int y = 0; y < 16; y++)
+	for (int z = 0; z < 16; z++)
+	{
+		GameObject* _pGO1 = new GameObject();
+		_pGO1->Init( p_pDevice, p_pDevCon, _pMesh, _pSmileyMaterial );
+
+		_pGO1->m_pTransform->Move( XMFLOAT3( x * 2, y * 2, z * 2 ), true );
 
 
-	Input::SetMousePosition(XMFLOAT2(500, 400));
+
+		m_pGOs[x + y * 16 + z * 256] = _pGO1;
+	}
+
+
+
+
+
+	//m_pGO2->m_pTransform->Move(XMFLOAT3(2, 0, 0), true);
+
+	m_pCamera = new Camera( XMFLOAT3( 0, 0, 0 ), XMFLOAT3( 0, -1, 1 ), 5 );
+
+
+	Input::SetMousePosition( XMFLOAT2( 500, 400 ) );
 }
 
-void Scene3D::Update(float p_DeltaTime)
+void Scene3D::Update( float p_DeltaTime )
 {
-	m_pFPSDisplay->Update(p_DeltaTime);
+	m_pFPSDisplay->Update( p_DeltaTime );
 
-	m_pFirstObject->Update(p_DeltaTime);
+	m_pFirstObject->Update( p_DeltaTime );
 
-	
-	m_pCamera->Update(p_DeltaTime);
 
-	
+	m_pCamera->Update( p_DeltaTime );
+
+
 }
 
-void Scene3D::Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
+void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 {
-	m_pFirstObject->Render(m_pCamera);
+	//m_pFirstObject->Render(m_pCamera);
 
-	m_pGO1->Render(m_pCamera);
-	m_pGO2->Render(m_pCamera);
+	//m_pGO1->Render( m_pCamera );
+	//m_pGO2->Render( m_pCamera );
+
+	for(int x = 0; x < 16 * 16 * 16; x++)
+		m_pGOs[x]->Render( m_pCamera );
 
 	m_pSpriteBatch->Begin();
 
-	m_pFPSDisplay->Render(m_pSpriteBatch, m_pCalibri, 0, 0);
+	m_pFPSDisplay->Render( m_pSpriteBatch, m_pCalibri, 0, 0 );
 
 	m_pSpriteBatch->End();
 }

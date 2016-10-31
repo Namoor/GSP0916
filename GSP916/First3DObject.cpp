@@ -34,15 +34,18 @@ void First3DObject::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon
 	Mesh* _pMesh = Mesh::CreateCubeMesh(m_pDevice, m_pDevCon);
 
 	// Material
-	Material* _pMaterial = new Material();
-	_pMaterial->LoadShader(L"First3DShader.hlsl", "VShader", "PShader", m_pDevice, m_pDevCon);
+	Shader* _pShader = new Shader( );
+	_pShader->LoadShader( L"First3DShader.hlsl", "VShader", "PShader", m_pDevice, m_pDevCon );
 
-	_pMaterial->AddInputLayoutEntry("POSITION", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("COLOR", 0, 12, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("TEXCOORD", 0, 28, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT);
-	_pMaterial->AddInputLayoutEntry("NORMAL", 0, 36, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT);
+	_pShader->AddInputLayoutEntry( "POSITION", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT );
+	_pShader->AddInputLayoutEntry( "COLOR", 0, 12, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT );
+	_pShader->AddInputLayoutEntry( "TEXCOORD", 0, 28, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT );
+	_pShader->AddInputLayoutEntry( "NORMAL", 0, 36, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT );
 
-	_pMaterial->FinalizeInputLayout();
+	_pShader->FinalizeInputLayout( );
+
+
+	Material* _pMaterial = new Material( _pShader, p_pDevCon );
 
 	m_pMeshRenderer = new MeshRenderer();
 	m_pMeshRenderer->Init(_pMaterial, _pMesh, m_pDevice, m_pDevCon);
