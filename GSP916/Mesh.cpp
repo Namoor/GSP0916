@@ -1,4 +1,8 @@
 #include "Mesh.h"
+#include <fstream>
+
+#include <vector>
+
 
 struct BaseMeshVertex
 {
@@ -56,7 +60,6 @@ void Mesh::SetData(void* VertexData, void* IndexData)
 	m_pDevCon->Unmap(m_pIndexBuffer, 0);
 
 }
-
 
 void Mesh::Render()
 {
@@ -244,4 +247,88 @@ Mesh* Mesh::CreateCubeMesh(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevC
 	_Result->SetData(_Vertices, _Indices);
 
 	return _Result;
+}
+
+
+Mesh* Mesh::CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, char* p_pObjFileName)
+{
+
+
+	std::ifstream _ObjFile(p_pObjFileName);
+
+	if (_ObjFile.bad())
+	{
+		return nullptr;
+	}
+
+	std::vector<XMFLOAT3> _V;
+	std::vector<XMFLOAT2> _VT;
+	std::vector<XMFLOAT3> _VN;
+
+	char _Trash[512];
+
+	// file lesen
+	while (!_ObjFile.eof())
+	{
+		// f oder v
+		char MajorType;
+		MajorType = _ObjFile.get();
+
+		if (MajorType == 'v')
+		{
+			// space oder t oder n
+			char MinorType;
+			MinorType = _ObjFile.get();
+
+			if (MinorType == ' ') // "v "
+			{
+				XMFLOAT3 _Vertex;
+
+				_ObjFile >> _Vertex.x;
+				_ObjFile >> _Vertex.y;
+				_ObjFile >> _Vertex.z;
+
+				_V.push_back(_Vertex);
+
+				_ObjFile.getline(_Trash, 512);
+			}
+			else if (MinorType == 't') // "vt"
+			{
+				XMFLOAT2 _Vertex;
+
+				_ObjFile >> _Vertex.x;
+				_ObjFile >> _Vertex.y;
+
+				_VT.push_back(_Vertex);
+
+				_ObjFile.getline(_Trash, 512);
+			}
+			else if (MinorType == 'n') // "vn"
+			{
+				XMFLOAT3 _Vertex;
+
+				_ObjFile >> _Vertex.x;
+				_ObjFile >> _Vertex.y;
+				_ObjFile >> _Vertex.z;
+
+				_VN.push_back(_Vertex);
+
+				_ObjFile.getline(_Trash, 512);
+			}
+			else
+			{
+				int asd = 0;
+			}
+		}
+		else if (MajorType == 'f')
+		{
+
+		}
+		else
+		{
+			int asd = 0;
+		}
+	}
+
+	return nullptr;
 }

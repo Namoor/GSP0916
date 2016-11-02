@@ -20,6 +20,8 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 
 	Mesh* _pMesh = Mesh::CreateCubeMesh( p_pDevice, p_pDevCon );
 
+	Mesh* _pTestObj = Mesh::CreateMeshFromObj(p_pDevice, p_pDevCon, "firstmodel.obj");
+
 	// Material
 	Shader* _pDiffuseShader = new Shader();
 	_pDiffuseShader->LoadShader( L"First3DShader.hlsl", "VShader", "PShader", p_pDevice, p_pDevCon );

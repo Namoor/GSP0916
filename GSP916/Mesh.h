@@ -28,4 +28,7 @@ public:
 	static Mesh* CreateCubeMesh(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon);
 	//static Mesh* CreateSphereMesh();
 
+
+
+	static Mesh* CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, char* p_pObjFileName);
 };
