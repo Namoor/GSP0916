@@ -12,6 +12,14 @@ struct BaseMeshVertex
 	XMFLOAT3 Normal;
 };
 
+struct OBJVertex
+{
+public:
+	int m_V;
+	int m_VT;
+	int m_VN;
+};
+
 void Mesh::Init(int p_VertexCount, int p_ByteSizePerVertex, int p_IndexCount, ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
 {
 	m_IndexCount = p_IndexCount;
@@ -70,7 +78,7 @@ void Mesh::Render()
 
 	m_pDevCon->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_Stride, &_Offset);
 	m_pDevCon->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-	m_pDevCon->DrawIndexed(36, 0, 0);
+	m_pDevCon->DrawIndexed(m_IndexCount, 0, 0);
 }
 
 Mesh* Mesh::CreateCubeMesh(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
@@ -241,7 +249,7 @@ Mesh* Mesh::CreateCubeMesh(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevC
 	_Indices[33] = 23;
 	_Indices[34] = 22;
 	_Indices[35] = 21;
-	
+
 #pragma endregion
 
 	_Result->SetData(_Vertices, _Indices);
@@ -265,7 +273,14 @@ Mesh* Mesh::CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pD
 	std::vector<XMFLOAT2> _VT;
 	std::vector<XMFLOAT3> _VN;
 
+	std::vector<BaseMeshVertex> _Vertices;
+	std::vector<OBJVertex> _Vertices_Simple;
+	std::vector<int> _Indices;
+
 	char _Trash[512];
+
+	int Culled = 0;
+	int Passed = 0;
 
 	// file lesen
 	while (!_ObjFile.eof())
@@ -287,6 +302,11 @@ Mesh* Mesh::CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pD
 				_ObjFile >> _Vertex.x;
 				_ObjFile >> _Vertex.y;
 				_ObjFile >> _Vertex.z;
+
+				_Vertex.x *= 0.1f;
+				_Vertex.y *= 0.1f;
+				_Vertex.z *= 0.1f;
+
 
 				_V.push_back(_Vertex);
 
@@ -311,6 +331,7 @@ Mesh* Mesh::CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pD
 				_ObjFile >> _Vertex.y;
 				_ObjFile >> _Vertex.z;
 
+
 				_VN.push_back(_Vertex);
 
 				_ObjFile.getline(_Trash, 512);
@@ -322,13 +343,124 @@ Mesh* Mesh::CreateMeshFromObj(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pD
 		}
 		else if (MajorType == 'f')
 		{
+			for (int x = 0; x < 3; x++)
+			{
+				int _VertexPos = 0;
+				int _VertexTex = 0;
+				int _VertexNrm = 0;
 
+				_ObjFile >> _VertexPos;
+				_ObjFile.get();
+
+				_ObjFile >> _VertexTex;
+				_ObjFile.get();
+
+				_ObjFile >> _VertexNrm;
+
+
+				OBJVertex _ObjVertex;
+				_ObjVertex.m_V = _VertexPos;
+				_ObjVertex.m_VT = _VertexTex;
+				_ObjVertex.m_VN = _VertexNrm;
+
+				int _Index = -1;
+
+				for (int x = 0; x < _Vertices_Simple.size(); x++)
+				{
+					if (_Vertices_Simple[x].m_V == _ObjVertex.m_V
+						&&_Vertices_Simple[x].m_VT == _ObjVertex.m_VT
+						&&_Vertices_Simple[x].m_VN == _ObjVertex.m_VN)
+					{
+						_Index = x;
+						break;
+					}
+				}
+
+
+				if (_Index == -1)
+				{
+					BaseMeshVertex _Vertex;
+					_Vertex.Position = _V[_VertexPos - 1];
+					_Vertex.UV = _VT[_VertexTex - 1];
+					_Vertex.Normal = _VN[_VertexNrm - 1];
+					_Vertex.Color = XMFLOAT4(1, 1, 1, 1);
+
+					_Vertices_Simple.push_back(_ObjVertex);
+					_Vertices.push_back(_Vertex);
+
+					_Index = _Vertices.size() - 1;
+				}
+				
+				_Indices.push_back(_Index);
+
+				int asd = 0;
+
+
+
+
+			}
+
+			// ------------------- test
+			//for (int x = 0; x <= 40; x++)
+			//{
+			//	for (int y = 0; y <= 40; y++)
+			//	{
+			//		for (int z = 0; z <= 40; z++)
+			//		{
+			//			if (x == 0 || x == 40 || y == 0 || y == 40 || z == 0 || z == 40)
+			//			{
+			//
+			//				int _I1 = _Indices[_Indices.size() - 3];
+			//				int _I2 = _Indices[_Indices.size() - 2];
+			//				int _I3 = _Indices[_Indices.size() - 1];
+			//
+			//				XMFLOAT3 CameraPos = XMFLOAT3(20 - x, 20 - y, 20 - z);
+			//				XMVECTOR _CamVec = XMLoadFloat3(&CameraPos);
+			//
+			//
+			//				BaseMeshVertex _F1 = _Vertices[_I1];
+			//				BaseMeshVertex _F2 = _Vertices[_I2];
+			//				BaseMeshVertex _F3 = _Vertices[_I3];
+			//
+			//				XMVECTOR _V1 = XMLoadFloat3(&_F1.Position);
+			//				XMVECTOR _V2 = XMLoadFloat3(&_F2.Position);
+			//				XMVECTOR _V3 = XMLoadFloat3(&_F3.Position);
+			//
+			//
+			//				XMVECTOR _V12 = _V2 - _V1;
+			//				XMVECTOR _V13 = _V3 - _V1;
+			//
+			//				XMVECTOR _VN = XMVector3Cross(_V12, _V13);
+			//				XMVECTOR _Dir = _V1 - _CamVec;
+			//
+			//				XMVECTOR _Result = XMVector3Dot(_VN, _Dir);
+			//
+			//				if (_Result.m128_f32[0] > 0)
+			//					Culled++;
+			//				else
+			//					Passed++;
+			//			}
+			//		}
+			//	}
+			//}
+			// ---------------------- test
+
+
+			_ObjFile.getline(_Trash, 512);
 		}
 		else
 		{
 			int asd = 0;
 		}
-	}
 
-	return nullptr;
+	}
+	//float culled = Culled / (float)(Culled + Passed);
+	//	int asd = 0;
+
+
+	Mesh* _Result = new Mesh();
+	_Result->Init(_Vertices.size(), sizeof(BaseMeshVertex), _Indices.size(), p_pDevice, p_pDevCon);
+	_Result->SetData(&_Vertices[0], &_Indices[0]);
+
+	return _Result;
 }

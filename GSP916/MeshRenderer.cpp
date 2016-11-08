@@ -31,9 +31,10 @@ void MeshRenderer::Render(Camera* p_pCamera)
 	{
 		MatrixConstantBuffer _Data;
 		_Data.WorldViewProjectionMatrix = m_pTransform->GetMatrix() * p_pCamera->GetViewMatrix() * p_pCamera->GetProjectionMatrix();
-		_Data.TransInvWorldMatrix = m_pTransform->GetInvertTranspose();
+		XMMATRIX _Mat = m_pTransform->GetInvertTranspose();
+		_Data.TransInvWorldMatrix = _Mat;
 
-		D3D11_MAPPED_SUBRESOURCE _MSR;
+			D3D11_MAPPED_SUBRESOURCE _MSR;
 		m_pDevCon->Map(m_pMatrixConstantBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_MSR);
 		memcpy(_MSR.pData, &_Data, sizeof(MatrixConstantBuffer));
 		m_pDevCon->Unmap(m_pMatrixConstantBuffer, 0);

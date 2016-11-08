@@ -20,7 +20,7 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 
 	Mesh* _pMesh = Mesh::CreateCubeMesh( p_pDevice, p_pDevCon );
 
-	Mesh* _pTestObj = Mesh::CreateMeshFromObj(p_pDevice, p_pDevCon, "firstmodel.obj");
+	Mesh* _pTestObj = Mesh::CreateMeshFromObj(p_pDevice, p_pDevCon, "duck.obj");
 
 	// Material
 	Shader* _pDiffuseShader = new Shader();
@@ -43,15 +43,15 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 	Texture* _pWoodTexture = new Texture( p_pDevice, "Wood.bmp" );
 	_pWoodMaterial->m_pTexture = _pWoodTexture;
 
-	for (int x = 0; x < 16; x++)
-	for (int y = 0; y < 16; y++)
-	for (int z = 0; z < 16; z++)
+	for (int x = 0; x < 1; x++)
+	for (int y = 0; y < 1; y++)
+	for (int z = 0; z < 1; z++)
 	{
 		GameObject* _pGO1 = new GameObject();
-		_pGO1->Init( p_pDevice, p_pDevCon, _pMesh, _pSmileyMaterial );
+		_pGO1->Init( p_pDevice, p_pDevCon, _pTestObj, _pSmileyMaterial );
 
 		_pGO1->m_pTransform->Move( XMFLOAT3( x * 2, y * 2, z * 2 ), true );
-
+		
 
 
 		m_pGOs[x + y * 16 + z * 256] = _pGO1;
@@ -88,7 +88,7 @@ void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 	//m_pGO1->Render( m_pCamera );
 	//m_pGO2->Render( m_pCamera );
 
-	for(int x = 0; x < 16 * 16 * 16; x++)
+	for(int x = 0; x < 1; x++)
 		m_pGOs[x]->Render( m_pCamera );
 
 	m_pSpriteBatch->Begin();

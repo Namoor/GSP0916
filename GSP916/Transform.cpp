@@ -11,12 +11,16 @@ Transform::Transform(XMFLOAT3 p_Position, XMFLOAT3 p_Rotation, XMFLOAT3 p_Scale)
 	m_WorldMatrix = XMMatrixScalingFromVector(Scale)
 		* XMMatrixRotationRollPitchYawFromVector(Rotation)
 		* XMMatrixTranslationFromVector(Position);
+
+	UpdateMatrix();
 }
 
 void Transform::UpdateMatrix()
 {
-	XMMATRIX m_TransInv = XMMatrixInverse( nullptr, m_WorldMatrix );
-	m_TransInv = XMMatrixTranspose( m_TransInv );
+	XMMATRIX _TransInv = XMMatrixInverse( nullptr, m_WorldMatrix );
+	m_TransInv = XMMatrixTranspose( _TransInv );
+
+	//m_TransInv.r[0].m128_f32[3] = 0;
 }
 
 void Transform::RotateAround(XMFLOAT3 Axis, float p_AngleInDegree, bool p_LocalRotationAnchor)
@@ -82,6 +86,9 @@ XMMATRIX Transform::GetInvertTranspose()
 	// scale inverted
 	// rotation unaffected
 	// translation breaks
+
+
+	UpdateMatrix();
 
 	return m_TransInv;
 
