@@ -10,6 +10,8 @@
 
 #include "GameObject.h"
 
+#include "ShadingDemo.h"
+
 class Scene3D : public IScene
 {
 public:
@@ -28,5 +30,7 @@ private:
 	Camera* m_pCamera;
 
 	GameObject** m_pGOs;
+
+	ShadingDemo* m_pDemo;
 
 };

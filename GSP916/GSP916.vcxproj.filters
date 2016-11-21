@@ -73,6 +73,9 @@
     <Filter Include="Source Files\Components\Mesh">
       <UniqueIdentifier>{275b7c37-d8d6-4550-88cc-e704a01f4073}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\3DObjects\ShadingDemo">
+      <UniqueIdentifier>{c3ee16da-6efe-4efd-afd5-1c49f0bc9823}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Components\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadingDemo.cpp">
+      <Filter>Source Files\3DObjects\ShadingDemo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,9 @@
     <ClInclude Include="Material.h">
       <Filter>Source Files\Components\Material</Filter>
     </ClInclude>
+    <ClInclude Include="ShadingDemo.h">
+      <Filter>Source Files\3DObjects\ShadingDemo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VShader.hlsl">
@@ -201,6 +210,9 @@
     </FxCompile>
     <FxCompile Include="First3DShader.hlsl">
       <Filter>Source Files\3DObjects\First3DObject</Filter>
+    </FxCompile>
+    <FxCompile Include="ShadingDemo.hlsl">
+      <Filter>Source Files\3DObjects\ShadingDemo</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
