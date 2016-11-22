@@ -24,6 +24,8 @@ private:
 	
 	ID3D11Buffer* m_pMatrixConstantBuffer;
 
+	int m_Indices;
+
 private:
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pDevCon;

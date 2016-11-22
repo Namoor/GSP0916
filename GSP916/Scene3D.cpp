@@ -69,7 +69,7 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 	Input::SetMousePosition( XMFLOAT2( 500, 400 ) );
 
 	m_pDemo = new ShadingDemo();
-	m_pDemo->Init(p_pDevice, p_pDevCon, 4);
+	m_pDemo->Init(p_pDevice, p_pDevCon, 255);
 }
 
 void Scene3D::Update( float p_DeltaTime )

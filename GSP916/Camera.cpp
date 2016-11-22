@@ -140,8 +140,8 @@ void Camera::Update(float p_DeltaTime)
 		_Pos.x -= 500;
 		_Pos.y -= 400;
 
-		RotateY(_Pos.x, true);
-		RotateX(_Pos.y, false);
+		RotateY(_Pos.x * 0.1f, true);
+		RotateX(_Pos.y * 0.1f, false);
 
 		Input::SetMousePosition(XMFLOAT2(500, 400));
 	}
