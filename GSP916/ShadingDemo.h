@@ -3,6 +3,8 @@
 #include "d3dinclude.h"
 #include "Camera.h"
 
+#include "Texture.h"
+
 class ShadingDemo
 {
 public:
@@ -23,8 +25,14 @@ private:
 	ID3D11PixelShader* m_pPixelShader;
 	
 	ID3D11Buffer* m_pMatrixConstantBuffer;
+	ID3D11Buffer* m_pLightingConstantBuffer;
+
+	Texture* m_pNormal;
+	Texture* m_pDiffuse;
 
 	int m_Indices;
+
+	float m_TimePassed;
 
 private:
 	ID3D11Device* m_pDevice;

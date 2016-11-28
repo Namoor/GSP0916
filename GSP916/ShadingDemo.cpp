@@ -4,12 +4,33 @@ struct ShadingDemo_Vertex
 {
 	XMFLOAT3 Position;
 	XMFLOAT3 Normal;
+	XMFLOAT3 Tangent;
+	XMFLOAT3 BiTangent;
+	XMFLOAT2 UV;
 };
 
 struct ShadingDemo_MatrixConstantBuffer
 {
 	XMMATRIX ModelViewProjection;
 };
+
+struct ShadingDemo_LightConstantBuffer
+{
+	XMFLOAT4 LightDirection;
+	XMFLOAT4 LightColor;
+};
+
+XMFLOAT3 Cross(XMFLOAT3 LHS, XMFLOAT3 RHS)
+{
+	return XMFLOAT3(LHS.y * RHS.z - LHS.z * RHS.y, LHS.z * RHS.x - RHS.z * LHS.x, LHS.x*RHS.y - LHS.y*RHS.x);
+}
+
+XMFLOAT3 Normalize(XMFLOAT3 Vector)
+{
+	float Length = sqrt(Vector.x * Vector.x + Vector.y * Vector.y + Vector.z * Vector.z);
+
+	return XMFLOAT3(Vector.x / Length, Vector.y / Length, Vector.z / Length);
+}
 
 ShadingDemo::ShadingDemo()
 {
@@ -24,10 +45,14 @@ ShadingDemo::ShadingDemo()
 
 	m_pPixelShader = nullptr;
 	m_pVertexShader = nullptr;
+
+	m_TimePassed = 0;
 }
 
 float GetHeightAt(float x, float y)
 {
+	return 0;
+
 	float _dx = fabs( 2*(0.5f - x));
 	float _dy = fabs(2*(0.5f - y));
 
@@ -55,6 +80,10 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	m_pDevCon = p_pDevCon;
 	m_pDevice = p_pDevice;
 
+	m_pDiffuse = new Texture(p_pDevice, "Rock_Diffuse.jpg");
+	m_pNormal = new Texture(p_pDevice, "Rock_Normal.jpg");
+
+
 	int _VerticesPerSide = p_Subdivisions + 1;
 
 	// VertexBuffer
@@ -75,6 +104,7 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 		for (int y = 0; y < _VerticesPerSide; y++)
 		{
 			_pVertices[y * _VerticesPerSide + x].Position = XMFLOAT3(x/(float)p_Subdivisions * 4, GetHeightAt(x / (float)p_Subdivisions, y / (float)p_Subdivisions) * 2, y / (float)p_Subdivisions * 4);
+			_pVertices[y * _VerticesPerSide + x].UV = XMFLOAT2(x / (float)_VerticesPerSide, y / (float)_VerticesPerSide);
 		}
 
 
@@ -163,6 +193,14 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 		float _Length = sqrt(_Normal.x*_Normal.x + _Normal.y*_Normal.y + _Normal.z*_Normal.z);
 
 		_pVertices[x].Normal = XMFLOAT3(_Normal.x / _Length, _Normal.y / _Length, _Normal.z / _Length);
+
+		XMFLOAT3 _BiTangent = XMFLOAT3(0, 0, 1);
+		XMFLOAT3 _Tangent = Cross(_pVertices[x].Normal, _BiTangent);
+		_Tangent = Normalize(_Tangent);
+		_BiTangent = Cross(_Tangent, _pVertices[x].Normal);
+
+		int ads = 0;
+
 	}
 	
 	// Vertex und Index Buffer übertragen
@@ -190,6 +228,17 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	_CBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 
 	m_pDevice->CreateBuffer(&_CBDesc, nullptr, &m_pMatrixConstantBuffer);
+
+
+	D3D11_BUFFER_DESC _LBDesc;
+	ZeroMemory(&_LBDesc, sizeof(_LBDesc));
+
+	_LBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+	_LBDesc.ByteWidth = sizeof(ShadingDemo_LightConstantBuffer);
+	_LBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+	_LBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+
+	m_pDevice->CreateBuffer(&_LBDesc, nullptr, &m_pLightingConstantBuffer);
 
 	// VertexShader
 	ID3DBlob* _pVertexShaderBlob;
@@ -220,8 +269,8 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 
 	// InputLayout
 
-	D3D11_INPUT_ELEMENT_DESC _IEDs[2];
-	ZeroMemory(_IEDs, sizeof(D3D11_INPUT_ELEMENT_DESC) * 2);
+	D3D11_INPUT_ELEMENT_DESC _IEDs[3];
+	ZeroMemory(_IEDs, sizeof(D3D11_INPUT_ELEMENT_DESC) * 3);
 
 	_IEDs[0].AlignedByteOffset = 0;
 	_IEDs[0].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
@@ -235,20 +284,38 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	_IEDs[1].SemanticName = "NORMAL";
 	_IEDs[1].SemanticIndex = 0;
 
+	_IEDs[2].AlignedByteOffset = 24;
+	_IEDs[2].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+
+	_IEDs[2].SemanticName = "TEXCOORD";
+	_IEDs[2].SemanticIndex = 0;
+
 	//_IEDs[0].InputSlot = 0;
 	//_IEDs[0].InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	//_IEDs[0].InstanceDataStepRate = 0;
 	
-	m_pDevice->CreateInputLayout(_IEDs, 2, _pVertexShaderBlob->GetBufferPointer(), _pVertexShaderBlob->GetBufferSize(), &m_pInputLayout);
+	m_pDevice->CreateInputLayout(_IEDs, 3, _pVertexShaderBlob->GetBufferPointer(), _pVertexShaderBlob->GetBufferSize(), &m_pInputLayout);
 }
 
 void ShadingDemo::Update(float p_DeltaTime)
 {
-
+	m_TimePassed += p_DeltaTime;
 }
 
 void ShadingDemo::Render(Camera* p_pCamera)
 {
+	ShadingDemo_LightConstantBuffer _NewLightData;
+
+	_NewLightData.LightDirection =  XMFLOAT4(sin(m_TimePassed), 1, cos(m_TimePassed), 0);
+	_NewLightData.LightColor = XMFLOAT4(1, 1, 1, 0);
+
+	D3D11_MAPPED_SUBRESOURCE _LBMSR;
+
+	m_pDevCon->Map(m_pLightingConstantBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_LBMSR);
+	memcpy(_LBMSR.pData, &_NewLightData, sizeof(ShadingDemo_LightConstantBuffer));
+	m_pDevCon->Unmap(m_pLightingConstantBuffer, 0);
+
+
 	ShadingDemo_MatrixConstantBuffer _NewMatrixData;
 
 	// Struct mit daten füllen
@@ -276,7 +343,11 @@ void ShadingDemo::Render(Camera* p_pCamera)
 	m_pDevCon->VSSetConstantBuffers(0, 1, &m_pMatrixConstantBuffer);
 
 	m_pDevCon->PSSetShader(m_pPixelShader, nullptr, 0);
-
+	m_pDevCon->PSSetConstantBuffers(0, 1, &m_pLightingConstantBuffer);
+	ID3D11ShaderResourceView* _pNormal = m_pNormal->GetSRV();
+	ID3D11ShaderResourceView* _pDiffuse = m_pDiffuse->GetSRV();
+	m_pDevCon->PSSetShaderResources(0, 1, &_pNormal);
+	m_pDevCon->PSSetShaderResources(1, 1, &_pDiffuse);
 
 	// Rendern
 	m_pDevCon->DrawIndexed(m_Indices, 0, 0);
