@@ -186,9 +186,9 @@ int System::Run(IScene* p_pScene)
 		Frames++;
 
 		float _Color[4];
-		_Color[0] = 1; // (rand() % 256) / 256.0f;
-		_Color[1] = 0; // (rand() % 256) / 256.0f;
-		_Color[2] = 0; // (rand() % 256) / 256.0f;
+		_Color[0] = 0.3; // (rand() % 256) / 256.0f;
+		_Color[1] = 0.3; // (rand() % 256) / 256.0f;
+		_Color[2] = 0.3; // (rand() % 256) / 256.0f;
 		_Color[3] = 1;
 
 		m_pDeviceContext->ClearRenderTargetView(m_pScreen, _Color);

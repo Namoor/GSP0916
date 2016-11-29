@@ -15,6 +15,7 @@ public:
 public:
 	XMMATRIX GetViewMatrix();
 	XMMATRIX GetProjectionMatrix();
+	XMFLOAT4 GetPositionAsFloat4();
 
 	void Update(float p_DeltaTime);
 

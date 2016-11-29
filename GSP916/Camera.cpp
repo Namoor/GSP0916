@@ -108,6 +108,15 @@ XMMATRIX Camera::GetProjectionMatrix()
 }
 
 
+XMFLOAT4 Camera::GetPositionAsFloat4()
+{
+	XMVECTOR _CameraPosition = m_Target - m_Direction * m_Distance;
+
+	return XMFLOAT4(_CameraPosition.m128_f32[0], _CameraPosition.m128_f32[1],
+		_CameraPosition.m128_f32[2],0);
+}
+
+
 void Camera::Update(float p_DeltaTime)
 {
 	if (Input::GetKey(KeyCode::D))

@@ -1,10 +1,9 @@
-﻿  ShadingDemo.cpp
-ShadingDemo.cpp(30): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(56): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(57): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(64): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(70): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(181): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(193): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-ShadingDemo.cpp(309): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  GSP916.vcxproj -> F:\Jannik Sonntag\GSP0916\Debug\GSP916.exe
+﻿Build started 29.11.2016 17:40:07.
+     1>Project "D:\Jannik Sonntag\GSP0916_Repo\GSP916\GSP916.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         GSP916.vcxproj -> D:\Jannik Sonntag\GSP0916_Repo\Debug\GSP916.exe
+     1>Done Building Project "D:\Jannik Sonntag\GSP0916_Repo\GSP916\GSP916.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.04

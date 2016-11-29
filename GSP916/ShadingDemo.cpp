@@ -16,8 +16,13 @@ struct ShadingDemo_MatrixConstantBuffer
 
 struct ShadingDemo_LightConstantBuffer
 {
-	XMFLOAT4 LightDirection;
-	XMFLOAT4 LightColor;
+	XMFLOAT4 Cam_CameraPositionInWorldSpace;
+
+	XMFLOAT4 Dir_LightDirection;
+	XMFLOAT4 Dir_LightColor;
+
+
+	XMFLOAT4 Amb_LightColor;
 };
 
 XMFLOAT3 Cross(XMFLOAT3 LHS, XMFLOAT3 RHS)
@@ -51,7 +56,6 @@ ShadingDemo::ShadingDemo()
 
 float GetHeightAt(float x, float y)
 {
-	return 0;
 
 	float _dx = fabs( 2*(0.5f - x));
 	float _dy = fabs(2*(0.5f - y));
@@ -80,8 +84,8 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	m_pDevCon = p_pDevCon;
 	m_pDevice = p_pDevice;
 
-	m_pDiffuse = new Texture(p_pDevice, "Rock_Diffuse.jpg");
-	m_pNormal = new Texture(p_pDevice, "Rock_Normal.jpg");
+	m_pDiffuse = new Texture(p_pDevice, "Metal_Diffuse.jpg");
+	m_pNormal = new Texture(p_pDevice, "Metal_Normal.jpg");
 
 
 	int _VerticesPerSide = p_Subdivisions + 1;
@@ -199,6 +203,9 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 		_Tangent = Normalize(_Tangent);
 		_BiTangent = Cross(_Tangent, _pVertices[x].Normal);
 
+		_pVertices[x].Tangent = _Tangent;
+		_pVertices[x].BiTangent = _BiTangent;
+
 		int ads = 0;
 
 	}
@@ -269,8 +276,8 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 
 	// InputLayout
 
-	D3D11_INPUT_ELEMENT_DESC _IEDs[3];
-	ZeroMemory(_IEDs, sizeof(D3D11_INPUT_ELEMENT_DESC) * 3);
+	D3D11_INPUT_ELEMENT_DESC _IEDs[5];
+	ZeroMemory(_IEDs, sizeof(D3D11_INPUT_ELEMENT_DESC) * 5);
 
 	_IEDs[0].AlignedByteOffset = 0;
 	_IEDs[0].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
@@ -285,16 +292,28 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	_IEDs[1].SemanticIndex = 0;
 
 	_IEDs[2].AlignedByteOffset = 24;
-	_IEDs[2].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+	_IEDs[2].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
 
-	_IEDs[2].SemanticName = "TEXCOORD";
+	_IEDs[2].SemanticName = "TANGENT";
 	_IEDs[2].SemanticIndex = 0;
+
+	_IEDs[3].AlignedByteOffset = 36;
+	_IEDs[3].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
+
+	_IEDs[3].SemanticName = "TANGENT";
+	_IEDs[3].SemanticIndex = 1;
+
+	_IEDs[4].AlignedByteOffset = 48;
+	_IEDs[4].Format = DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+
+	_IEDs[4].SemanticName = "TEXCOORD";
+	_IEDs[4].SemanticIndex = 0;
 
 	//_IEDs[0].InputSlot = 0;
 	//_IEDs[0].InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	//_IEDs[0].InstanceDataStepRate = 0;
 	
-	m_pDevice->CreateInputLayout(_IEDs, 3, _pVertexShaderBlob->GetBufferPointer(), _pVertexShaderBlob->GetBufferSize(), &m_pInputLayout);
+	m_pDevice->CreateInputLayout(_IEDs, 5, _pVertexShaderBlob->GetBufferPointer(), _pVertexShaderBlob->GetBufferSize(), &m_pInputLayout);
 }
 
 void ShadingDemo::Update(float p_DeltaTime)
@@ -306,8 +325,12 @@ void ShadingDemo::Render(Camera* p_pCamera)
 {
 	ShadingDemo_LightConstantBuffer _NewLightData;
 
-	_NewLightData.LightDirection =  XMFLOAT4(sin(m_TimePassed), 1, cos(m_TimePassed), 0);
-	_NewLightData.LightColor = XMFLOAT4(1, 1, 1, 0);
+	_NewLightData.Cam_CameraPositionInWorldSpace = p_pCamera->GetPositionAsFloat4();
+
+	_NewLightData.Dir_LightDirection =  XMFLOAT4(sin(m_TimePassed), 1, cos(m_TimePassed), 0);
+	_NewLightData.Dir_LightColor = XMFLOAT4(255 / 256.0f, 224 / 256.0f, 122/256.0f, 0);
+
+	_NewLightData.Amb_LightColor = XMFLOAT4(0.3, 0.3, 0.3, 0);
 
 	D3D11_MAPPED_SUBRESOURCE _LBMSR;
 
