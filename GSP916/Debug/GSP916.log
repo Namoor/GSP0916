@@ -1,9 +1,9 @@
-﻿Build started 29.11.2016 17:40:07.
-     1>Project "D:\Jannik Sonntag\GSP0916_Repo\GSP916\GSP916.vcxproj" on node 2 (Build target(s)).
+﻿Build started 05.12.2016 14:42:47.
+     1>Project "D:\Jannik Sonntag\GSP0916\GSP916\GSP916.vcxproj" on node 2 (Build target(s)).
      1>Link:
-         GSP916.vcxproj -> D:\Jannik Sonntag\GSP0916_Repo\Debug\GSP916.exe
-     1>Done Building Project "D:\Jannik Sonntag\GSP0916_Repo\GSP916\GSP916.vcxproj" (Build target(s)).
+         GSP916.vcxproj -> D:\Jannik Sonntag\GSP0916\Debug\GSP916.exe
+     1>Done Building Project "D:\Jannik Sonntag\GSP0916\GSP916\GSP916.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.04
+Time Elapsed 00:00:00.08

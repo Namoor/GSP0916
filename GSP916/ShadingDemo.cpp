@@ -18,9 +18,16 @@ struct ShadingDemo_LightConstantBuffer
 {
 	XMFLOAT4 Cam_CameraPositionInWorldSpace;
 
-	XMFLOAT4 Dir_LightDirection;
-	XMFLOAT4 Dir_LightColor;
+	XMFLOAT4 Dir_LightDirectionRGB_SpecularIntensityA;
+	XMFLOAT4 Dir_LightColorRGB_SpecularExponentA;
 
+	XMFLOAT4 PL1_LightPositionRGB_RangeA;
+	XMFLOAT4 PL1_LightColorRGB_SpecularExponentA;
+	XMFLOAT4 PL1_SpecularIntensityA;
+
+	XMFLOAT4 PL2_LightPositionRGB_RangeA;
+	XMFLOAT4 PL2_LightColorRGB_SpecularExponentA;
+	XMFLOAT4 PL2_SpecularIntensityA;
 
 	XMFLOAT4 Amb_LightColor;
 };
@@ -327,8 +334,16 @@ void ShadingDemo::Render(Camera* p_pCamera)
 
 	_NewLightData.Cam_CameraPositionInWorldSpace = p_pCamera->GetPositionAsFloat4();
 
-	_NewLightData.Dir_LightDirection =  XMFLOAT4(sin(m_TimePassed), 1, cos(m_TimePassed), 0);
-	_NewLightData.Dir_LightColor = XMFLOAT4(255 / 256.0f, 224 / 256.0f, 122/256.0f, 0);
+	_NewLightData.Dir_LightDirectionRGB_SpecularIntensityA =  XMFLOAT4(1,1,1, 1.0f);
+	_NewLightData.Dir_LightColorRGB_SpecularExponentA = XMFLOAT4(255 / 256.0f, 224 / 256.0f, 122/256.0f, 140.0f);
+
+	_NewLightData.PL1_LightPositionRGB_RangeA = XMFLOAT4(sin(m_TimePassed) * 3.0f + 2, 1, cos(m_TimePassed) * 3.0f + 2, 4);
+	_NewLightData.PL1_LightColorRGB_SpecularExponentA = XMFLOAT4(1, 0, 0, 140);
+	_NewLightData.PL1_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
+
+	_NewLightData.PL2_LightPositionRGB_RangeA = XMFLOAT4(-sin(m_TimePassed) * 3.0f + 2, 1, -cos(m_TimePassed) * 3.0f + 2, 4);
+	_NewLightData.PL2_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 1, 140);
+	_NewLightData.PL2_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
 
 	_NewLightData.Amb_LightColor = XMFLOAT4(0.3, 0.3, 0.3, 0);
 
