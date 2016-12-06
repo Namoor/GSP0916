@@ -7,7 +7,7 @@ struct MyVertex
 };
 
 
-void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon)
+void Scene2D::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3D11RenderTargetView* m_pScreen, ID3D11DepthStencilView* m_pDepthStencil)
 {
 	m_pDevice = p_pDevice;
 	m_pDevCon = p_pDevCon;

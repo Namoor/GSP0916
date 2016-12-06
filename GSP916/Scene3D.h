@@ -11,11 +11,12 @@
 #include "GameObject.h"
 
 #include "ShadingDemo.h"
+#include "DirectionalLight.h"
 
 class Scene3D : public IScene
 {
 public:
-	virtual void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon) override;
+	virtual void Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3D11RenderTargetView* m_pScreen, ID3D11DepthStencilView* m_pDepthStencil) override;
 
 	virtual void Update(float p_DeltaTime) override;
 	virtual void Render(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon) override;
@@ -32,5 +33,9 @@ private:
 	GameObject** m_pGOs;
 
 	ShadingDemo* m_pDemo;
+	DirectionalLight* m_pLight;
 
+
+	ID3D11RenderTargetView* m_pScreen;
+	ID3D11DepthStencilView* m_pDepthStencil;
 };

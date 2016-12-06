@@ -4,6 +4,7 @@
 #include "Camera.h"
 
 #include "Texture.h"
+#include "DirectionalLight.h"
 
 class ShadingDemo
 {
@@ -15,6 +16,8 @@ public:
 	void Update(float p_DeltaTime);
 
 	void Render(Camera* p_pCamera);
+
+	void RenderShadows(DirectionalLight* p_pLight);
 
 private:
 	ID3D11Buffer* m_pVertexBuffer;

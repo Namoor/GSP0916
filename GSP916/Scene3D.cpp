@@ -3,8 +3,11 @@
 #include "Shader.h"
 
 
-void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
+void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3D11RenderTargetView* p_pScreen, ID3D11DepthStencilView* p_pDepthStencil)
 {
+	m_pScreen = p_pScreen;
+	m_pDepthStencil = p_pDepthStencil;
+
 	m_pSpriteBatch = new SpriteBatch();
 	m_pSpriteBatch->Init( p_pDevice, p_pDevCon );
 
@@ -42,6 +45,9 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 
 	Texture* _pWoodTexture = new Texture( p_pDevice, "Wood.bmp" );
 	_pWoodMaterial->m_pTexture = _pWoodTexture;
+
+	m_pLight = new DirectionalLight();
+	m_pLight->Init(p_pDevice, p_pDevCon);
 
 	//for (int x = 0; x < 1; x++)
 	//for (int y = 0; y < 1; y++)
@@ -86,6 +92,7 @@ void Scene3D::Update( float p_DeltaTime )
 
 void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 {
+	m_pLight->SetDirection(XMFLOAT3(0, 0, 1));
 	//m_pFirstObject->Render(m_pCamera);
 
 	//m_pGO1->Render( m_pCamera );
@@ -94,11 +101,22 @@ void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 	//for(int x = 0; x < 1; x++)
 	//	m_pGOs[x]->Render( m_pCamera );
 
+	// Shadowmap rendern ------------------
+	m_pLight->GetShadowMap()->Bind();
+
+	m_pDemo->RenderShadows(m_pLight);
+
+	// Scene Rendern mithilfe der ShadowMap
+	p_pDevCon->OMSetRenderTargets(1, &m_pScreen, m_pDepthStencil);
+
+
 	m_pDemo->Render(m_pCamera);
 
 	m_pSpriteBatch->Begin();
 
 	m_pFPSDisplay->Render( m_pSpriteBatch, m_pCalibri, 0, 0 );
+
+	m_pSpriteBatch->Draw(m_pLight->GetShadowMap()->GetTextureView(), Rect(0, 0, 400, 400));
 
 	m_pSpriteBatch->End();
 }

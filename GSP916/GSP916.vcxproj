@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="First3DObject.cpp" />
     <ClCompile Include="FPSDisplay.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene3D.cpp" />
     <ClCompile Include="ShadingDemo.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteFont.cpp" />
     <ClCompile Include="System.cpp" />
@@ -155,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="d3dinclude.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="First3DObject.h" />
     <ClInclude Include="FPSDisplay.h" />
     <ClInclude Include="GameObject.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="Scene2D.h" />
     <ClInclude Include="Scene3D.h" />
     <ClInclude Include="ShadingDemo.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SpriteBatch.h" />
     <ClInclude Include="SpriteFont.h" />
     <ClInclude Include="System.h" />

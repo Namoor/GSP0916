@@ -149,7 +149,7 @@ void System::Init()
 
 int System::Run(IScene* p_pScene)
 {
-	p_pScene->Init(m_pGraphicsDevice, m_pDeviceContext);
+	p_pScene->Init(m_pGraphicsDevice, m_pDeviceContext, m_pScreen, m_pDepthStencil);
 
 	int QuitCode = 0;
 	bool Running = true;

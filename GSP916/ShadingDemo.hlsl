@@ -49,8 +49,8 @@ cbuffer LightBuffer // CB PS0
 	float4 Amb_LightColor;
 };
 
-Texture2D NormalMap;
-Texture2D DiffuseMap; // T PS0
+Texture2D NormalMap; // T PS0
+Texture2D DiffuseMap; // T PS1
 
 SamplerState Sampler;
 
@@ -104,7 +104,7 @@ float4 PShader(VSOutput pInput) : SV_TARGET
 	NormalLocal.z = -NormalLocal.z;
 
 	float3 Normal = NormalLocal.x * pInput.Tangent + NormalLocal.y * pInput.Normal + NormalLocal.z * pInput.BiTangent;
-
+	Normal = pInput.Normal + Normal * 0.01f;
 
 
 

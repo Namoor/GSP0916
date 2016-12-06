@@ -40,6 +40,23 @@ Texture::Texture(ID3D11Device* p_pDevice, char* p_pFilename)
 	m_Y = _TD.Height;
 }
 
+
+Texture::Texture(ID3D11Device* p_pDevice, ID3D11ShaderResourceView* p_pSRV)
+{
+	m_pSRV = p_pSRV;
+	ID3D11Resource* _pResource;
+	m_pSRV->GetResource(&_pResource);
+
+	ID3D11Texture2D* _pTex;
+	_pResource->QueryInterface<ID3D11Texture2D>(&_pTex);
+
+	D3D11_TEXTURE2D_DESC _TD;
+	_pTex->GetDesc(&_TD);
+
+	m_X = _TD.Width;
+	m_Y = _TD.Height;
+}
+
 ID3D11ShaderResourceView* Texture::GetSRV()
 {
 	return m_pSRV;

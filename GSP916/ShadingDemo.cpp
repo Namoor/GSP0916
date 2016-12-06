@@ -63,6 +63,9 @@ ShadingDemo::ShadingDemo()
 
 float GetHeightAt(float x, float y)
 {
+	//return 0-y;
+
+	return (sin(x*20) + sin(y*20)) * 0.2f;
 
 	float _dx = fabs( 2*(0.5f - x));
 	float _dy = fabs(2*(0.5f - y));
@@ -334,15 +337,15 @@ void ShadingDemo::Render(Camera* p_pCamera)
 
 	_NewLightData.Cam_CameraPositionInWorldSpace = p_pCamera->GetPositionAsFloat4();
 
-	_NewLightData.Dir_LightDirectionRGB_SpecularIntensityA =  XMFLOAT4(1,1,1, 1.0f);
+	_NewLightData.Dir_LightDirectionRGB_SpecularIntensityA =  XMFLOAT4(0,0,1, 1.0f);
 	_NewLightData.Dir_LightColorRGB_SpecularExponentA = XMFLOAT4(255 / 256.0f, 224 / 256.0f, 122/256.0f, 140.0f);
 
 	_NewLightData.PL1_LightPositionRGB_RangeA = XMFLOAT4(sin(m_TimePassed) * 3.0f + 2, 1, cos(m_TimePassed) * 3.0f + 2, 4);
-	_NewLightData.PL1_LightColorRGB_SpecularExponentA = XMFLOAT4(1, 0, 0, 140);
+	_NewLightData.PL1_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 0, 140);
 	_NewLightData.PL1_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
 
 	_NewLightData.PL2_LightPositionRGB_RangeA = XMFLOAT4(-sin(m_TimePassed) * 3.0f + 2, 1, -cos(m_TimePassed) * 3.0f + 2, 4);
-	_NewLightData.PL2_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 1, 140);
+	_NewLightData.PL2_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 0, 140);
 	_NewLightData.PL2_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
 
 	_NewLightData.Amb_LightColor = XMFLOAT4(0.3, 0.3, 0.3, 0);
@@ -386,6 +389,41 @@ void ShadingDemo::Render(Camera* p_pCamera)
 	ID3D11ShaderResourceView* _pDiffuse = m_pDiffuse->GetSRV();
 	m_pDevCon->PSSetShaderResources(0, 1, &_pNormal);
 	m_pDevCon->PSSetShaderResources(1, 1, &_pDiffuse);
+
+	// Rendern
+	m_pDevCon->DrawIndexed(m_Indices, 0, 0);
+}
+
+void ShadingDemo::RenderShadows(DirectionalLight* p_pLight)
+{
+
+	ShadingDemo_MatrixConstantBuffer _NewMatrixData;
+
+	// Struct mit daten füllen
+	_NewMatrixData.ModelViewProjection = p_pLight->GetViewProjectionMatrix();
+
+
+	// Struct auf die graphikkarte übertragen
+	D3D11_MAPPED_SUBRESOURCE _CBMSR;
+	m_pDevCon->Map(m_pMatrixConstantBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_CBMSR);
+	memcpy(_CBMSR.pData, &_NewMatrixData, sizeof(ShadingDemo_MatrixConstantBuffer));
+	m_pDevCon->Unmap(m_pMatrixConstantBuffer, 0);
+
+
+	// State assignment
+	UINT _Stride = sizeof(ShadingDemo_Vertex);
+	UINT _Offset = 0;
+
+	m_pDevCon->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &_Stride, &_Offset);
+	m_pDevCon->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+	m_pDevCon->IASetInputLayout(m_pInputLayout);
+	m_pDevCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
+	m_pDevCon->VSSetShader(m_pVertexShader, nullptr, 0);
+	m_pDevCon->VSSetConstantBuffers(0, 1, &m_pMatrixConstantBuffer);
+
+	m_pDevCon->PSSetShader(nullptr, nullptr, 0);
 
 	// Rendern
 	m_pDevCon->DrawIndexed(m_Indices, 0, 0);
