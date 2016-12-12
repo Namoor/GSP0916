@@ -65,7 +65,7 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3
 
 
 
-
+	TimePassed = 0;
 
 	//m_pGO2->m_pTransform->Move(XMFLOAT3(2, 0, 0), true);
 
@@ -80,6 +80,8 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3
 
 void Scene3D::Update( float p_DeltaTime )
 {
+	TimePassed += p_DeltaTime * 0.1f;
+
 	m_pFPSDisplay->Update( p_DeltaTime );
 
 	m_pFirstObject->Update( p_DeltaTime );
@@ -92,7 +94,8 @@ void Scene3D::Update( float p_DeltaTime )
 
 void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 {
-	m_pLight->SetDirection(XMFLOAT3(0, 0, 1));
+
+	m_pLight->SetDirection(XMFLOAT3(sin(TimePassed), 0.5f, cos(TimePassed)));
 	//m_pFirstObject->Render(m_pCamera);
 
 	//m_pGO1->Render( m_pCamera );
@@ -110,13 +113,13 @@ void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 	p_pDevCon->OMSetRenderTargets(1, &m_pScreen, m_pDepthStencil);
 
 
-	m_pDemo->Render(m_pCamera);
+	m_pDemo->Render(m_pCamera, m_pLight);
 
 	m_pSpriteBatch->Begin();
 
 	m_pFPSDisplay->Render( m_pSpriteBatch, m_pCalibri, 0, 0 );
 
-	m_pSpriteBatch->Draw(m_pLight->GetShadowMap()->GetTextureView(), Rect(0, 0, 400, 400));
+	//m_pSpriteBatch->Draw(m_pLight->GetShadowMap()->GetTextureView(), Rect(0, 0, 400, 400));
 
 	m_pSpriteBatch->End();
 }

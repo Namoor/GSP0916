@@ -12,6 +12,7 @@ struct ShadingDemo_Vertex
 struct ShadingDemo_MatrixConstantBuffer
 {
 	XMMATRIX ModelViewProjection;
+	XMMATRIX ModelViewProjection_Light;
 };
 
 struct ShadingDemo_LightConstantBuffer
@@ -65,7 +66,16 @@ float GetHeightAt(float x, float y)
 {
 	//return 0-y;
 
-	return (sin(x*20) + sin(y*20)) * 0.2f;
+	//if (x == 0)
+	//	return -1;
+	//if (x >= 1)
+	//	return -1;
+	//if (y == 0)
+	//	return -1;
+	//if (y >= 1)
+	//	return -1;
+	//
+	//return (sin(x*3.141 * 5.5) + sin(y*3.141f*5.5)) * 0.2f;
 
 	float _dx = fabs( 2*(0.5f - x));
 	float _dy = fabs(2*(0.5f - y));
@@ -94,8 +104,8 @@ void ShadingDemo::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, 
 	m_pDevCon = p_pDevCon;
 	m_pDevice = p_pDevice;
 
-	m_pDiffuse = new Texture(p_pDevice, "Metal_Diffuse.jpg");
-	m_pNormal = new Texture(p_pDevice, "Metal_Normal.jpg");
+	m_pDiffuse = new Texture(p_pDevice, "Rock_Diffuse.jpg");
+	m_pNormal = new Texture(p_pDevice, "Rock_Normal.jpg");
 
 
 	int _VerticesPerSide = p_Subdivisions + 1;
@@ -331,21 +341,21 @@ void ShadingDemo::Update(float p_DeltaTime)
 	m_TimePassed += p_DeltaTime;
 }
 
-void ShadingDemo::Render(Camera* p_pCamera)
+void ShadingDemo::Render(Camera* p_pCamera, DirectionalLight* p_pLight)
 {
 	ShadingDemo_LightConstantBuffer _NewLightData;
 
 	_NewLightData.Cam_CameraPositionInWorldSpace = p_pCamera->GetPositionAsFloat4();
 
-	_NewLightData.Dir_LightDirectionRGB_SpecularIntensityA =  XMFLOAT4(0,0,1, 1.0f);
+	_NewLightData.Dir_LightDirectionRGB_SpecularIntensityA =  XMFLOAT4(p_pLight->GetDirection().x, p_pLight->GetDirection().y, p_pLight->GetDirection().z, 1.0f);
 	_NewLightData.Dir_LightColorRGB_SpecularExponentA = XMFLOAT4(255 / 256.0f, 224 / 256.0f, 122/256.0f, 140.0f);
 
 	_NewLightData.PL1_LightPositionRGB_RangeA = XMFLOAT4(sin(m_TimePassed) * 3.0f + 2, 1, cos(m_TimePassed) * 3.0f + 2, 4);
-	_NewLightData.PL1_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 0, 140);
+	_NewLightData.PL1_LightColorRGB_SpecularExponentA = XMFLOAT4(1, 0, 0, 140);
 	_NewLightData.PL1_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
 
 	_NewLightData.PL2_LightPositionRGB_RangeA = XMFLOAT4(-sin(m_TimePassed) * 3.0f + 2, 1, -cos(m_TimePassed) * 3.0f + 2, 4);
-	_NewLightData.PL2_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 0, 140);
+	_NewLightData.PL2_LightColorRGB_SpecularExponentA = XMFLOAT4(0, 0, 1, 140);
 	_NewLightData.PL2_SpecularIntensityA = XMFLOAT4(0, 0, 0, 1);
 
 	_NewLightData.Amb_LightColor = XMFLOAT4(0.3, 0.3, 0.3, 0);
@@ -361,6 +371,7 @@ void ShadingDemo::Render(Camera* p_pCamera)
 
 	// Struct mit daten füllen
 	_NewMatrixData.ModelViewProjection = p_pCamera->GetViewMatrix() * p_pCamera->GetProjectionMatrix();
+	_NewMatrixData.ModelViewProjection_Light = p_pLight->GetViewProjectionMatrix();
 
 
 	// Struct auf die graphikkarte übertragen
@@ -387,8 +398,10 @@ void ShadingDemo::Render(Camera* p_pCamera)
 	m_pDevCon->PSSetConstantBuffers(0, 1, &m_pLightingConstantBuffer);
 	ID3D11ShaderResourceView* _pNormal = m_pNormal->GetSRV();
 	ID3D11ShaderResourceView* _pDiffuse = m_pDiffuse->GetSRV();
+	ID3D11ShaderResourceView* _pShadowMap = p_pLight->GetShadowMap()->GetTextureView()->GetSRV();
 	m_pDevCon->PSSetShaderResources(0, 1, &_pNormal);
 	m_pDevCon->PSSetShaderResources(1, 1, &_pDiffuse);
+	m_pDevCon->PSSetShaderResources(2, 1, &_pShadowMap);
 
 	// Rendern
 	m_pDevCon->DrawIndexed(m_Indices, 0, 0);

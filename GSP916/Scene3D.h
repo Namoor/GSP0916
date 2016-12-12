@@ -38,4 +38,6 @@ private:
 
 	ID3D11RenderTargetView* m_pScreen;
 	ID3D11DepthStencilView* m_pDepthStencil;
+
+	float TimePassed;
 };

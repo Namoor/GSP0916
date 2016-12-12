@@ -20,6 +20,12 @@ ShadowMap* DirectionalLight::GetShadowMap()
 void DirectionalLight::SetDirection(XMFLOAT3 p_Direction)
 {
 	m_Direction = p_Direction;
+
+	float Distance = sqrt(m_Direction.x * m_Direction.x + m_Direction.y * m_Direction.y + m_Direction.z * m_Direction.z);
+
+	m_Direction.x = m_Direction.x / Distance;
+	m_Direction.y = m_Direction.y / Distance;
+	m_Direction.z = m_Direction.z / Distance;
 }
 
 XMFLOAT3 DirectionalLight::GetDirection()
@@ -30,10 +36,10 @@ XMFLOAT3 DirectionalLight::GetDirection()
 
 XMMATRIX DirectionalLight::GetViewProjectionMatrix()
 {
-	XMMATRIX _Projection = XMMatrixOrthographicLH(10, 10, 0, 20);
+	XMMATRIX _Projection = XMMatrixOrthographicLH(6, 6, 0, 10);
 	
-	XMFLOAT3 LookAt = XMFLOAT3(0, 0, 0);
-	XMFLOAT3 LightPos = XMFLOAT3(m_Direction.x * 10, m_Direction.y * 10, m_Direction.z * 10);
+	XMFLOAT3 LookAt = XMFLOAT3(2, 0, 2);
+	XMFLOAT3 LightPos = XMFLOAT3(m_Direction.x * 5 + LookAt.x, m_Direction.y * 5 + LookAt.y, m_Direction.z * 5 + LookAt.z);
 	XMFLOAT3 LightUp = XMFLOAT3(0, 1, 0);
 
 	XMVECTOR Direction = XMLoadFloat3(&m_Direction);

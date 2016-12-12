@@ -15,7 +15,7 @@ public:
 
 	void Update(float p_DeltaTime);
 
-	void Render(Camera* p_pCamera);
+	void Render(Camera* p_pCamera, DirectionalLight* p_pLight);
 
 	void RenderShadows(DirectionalLight* p_pLight);
 
