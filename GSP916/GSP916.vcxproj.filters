@@ -82,6 +82,15 @@
     <Filter Include="Source Files\Components\DirectionalLight">
       <UniqueIdentifier>{593b017f-51e2-45e9-9832-abd06060e9a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\PostProcessingRenderTartget">
+      <UniqueIdentifier>{90a0e20a-71ea-4524-afb0-65a393ea3ac2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\PostProcessingEffect">
+      <UniqueIdentifier>{46d36c30-3989-4573-a84e-d90d20de1216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\PostProcessingEffect\Shader">
+      <UniqueIdentifier>{29da47a0-d61b-4fe5-aab4-93fe0f2d00b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -146,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files\Components\DirectionalLight</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingRenderTarget.cpp">
+      <Filter>Source Files\Components\PostProcessingRenderTartget</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingEffect.cpp">
+      <Filter>Source Files\Components\PostProcessingEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +230,12 @@
     <ClInclude Include="DirectionalLight.h">
       <Filter>Source Files\Components\DirectionalLight</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessingRenderTarget.h">
+      <Filter>Source Files\Components\PostProcessingRenderTartget</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessingEffect.h">
+      <Filter>Source Files\Components\PostProcessingEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VShader.hlsl">
@@ -231,6 +252,9 @@
     </FxCompile>
     <FxCompile Include="ShadingDemo.hlsl">
       <Filter>Source Files\3DObjects\ShadingDemo</Filter>
+    </FxCompile>
+    <FxCompile Include="BlackWhite.hlsl">
+      <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

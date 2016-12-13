@@ -12,6 +12,9 @@
 
 #include "ShadingDemo.h"
 #include "DirectionalLight.h"
+#include "PostProcessingRenderTarget.h"
+
+#include "PostProcessingEffect.h"
 
 class Scene3D : public IScene
 {
@@ -38,6 +41,12 @@ private:
 
 	ID3D11RenderTargetView* m_pScreen;
 	ID3D11DepthStencilView* m_pDepthStencil;
+
+	PostProcessingRenderTarget* m_pMainSceneRender;
+
+	PostProcessingEffect* m_pGreyScale;
+
+	Texture* m_pTestTexture;
 
 	float TimePassed;
 };

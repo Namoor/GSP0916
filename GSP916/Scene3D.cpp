@@ -8,6 +8,14 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3
 	m_pScreen = p_pScreen;
 	m_pDepthStencil = p_pDepthStencil;
 
+
+	m_pTestTexture = new Texture(p_pDevice, "ColorPreview.png");
+	m_pMainSceneRender = new PostProcessingRenderTarget();
+	m_pMainSceneRender->Init(p_pDevice, p_pDevCon, 800, 600);
+
+	m_pGreyScale = new PostProcessingEffect();
+	m_pGreyScale->Init(p_pDevice, p_pDevCon, L"BlackWhite.hlsl");
+
 	m_pSpriteBatch = new SpriteBatch();
 	m_pSpriteBatch->Init( p_pDevice, p_pDevCon );
 
@@ -109,15 +117,28 @@ void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 
 	m_pDemo->RenderShadows(m_pLight);
 
+
+	// Bind PostProcessingRenderTarget
+	m_pMainSceneRender->Bind();
+
 	// Scene Rendern mithilfe der ShadowMap
+	m_pDemo->Render(m_pCamera, m_pLight);
+
+	
+	// Bind Screen
 	p_pDevCon->OMSetRenderTargets(1, &m_pScreen, m_pDepthStencil);
 
-
-	m_pDemo->Render(m_pCamera, m_pLight);
+	// Postprocess Rendern
+	m_pGreyScale->Blit(m_pTestTexture); // m_pMainSceneRender->GetTexture());
 
 	m_pSpriteBatch->Begin();
 
 	m_pFPSDisplay->Render( m_pSpriteBatch, m_pCalibri, 0, 0 );
+
+	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(0, 0, 800, 600));
+	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(200, 0, 400, 400));
+	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(0, 200, 400, 400));
+	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(200, 200, 400, 400));
 
 	//m_pSpriteBatch->Draw(m_pLight->GetShadowMap()->GetTextureView(), Rect(0, 0, 400, 400));
 
