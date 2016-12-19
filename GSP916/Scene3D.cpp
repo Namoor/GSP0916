@@ -7,14 +7,27 @@ void Scene3D::Init( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon, ID3
 {
 	m_pScreen = p_pScreen;
 	m_pDepthStencil = p_pDepthStencil;
-
+	m_pDevCon = p_pDevCon;
 
 	m_pTestTexture = new Texture(p_pDevice, "ColorPreview.png");
 	m_pMainSceneRender = new PostProcessingRenderTarget();
 	m_pMainSceneRender->Init(p_pDevice, p_pDevCon, 800, 600);
 
+	m_pOffScreenRender = new PostProcessingRenderTarget();
+	m_pOffScreenRender->Init(p_pDevice, p_pDevCon, 800, 600);
+
 	m_pGreyScale = new PostProcessingEffect();
 	m_pGreyScale->Init(p_pDevice, p_pDevCon, L"BlackWhite.hlsl");
+
+	m_pBlurSimple = new PostProcessingEffect();
+	m_pBlurSimple->Init(p_pDevice, p_pDevCon, L"Blur.hlsl");
+
+
+	m_pBlurX = new PostProcessingEffect();
+	m_pBlurX->Init(p_pDevice, p_pDevCon, L"BlurX.hlsl");
+
+	m_pBlurY = new PostProcessingEffect();
+	m_pBlurY->Init(p_pDevice, p_pDevCon, L"BlurY.hlsl");
 
 	m_pSpriteBatch = new SpriteBatch();
 	m_pSpriteBatch->Init( p_pDevice, p_pDevCon );
@@ -120,22 +133,38 @@ void Scene3D::Render( ID3D11Device* p_pDevice, ID3D11DeviceContext* p_pDevCon )
 
 	// Bind PostProcessingRenderTarget
 	m_pMainSceneRender->Bind();
-
 	// Scene Rendern mithilfe der ShadowMap
 	m_pDemo->Render(m_pCamera, m_pLight);
 
 	
 	// Bind Screen
+	//m_pOffScreenRender->Bind();
+	//
+	//// Postprocess Rendern
+	//m_pBlurY->Blit(m_pMainSceneRender->GetTexture()); //m_pTestTexture); //
+	//
+	//float _Color[4];
+	//_Color[0] = 1.0; // (rand() % 256) / 256.0f;
+	//_Color[1] = 1.0; // (rand() % 256) / 256.0f;
+	//_Color[2] = 1.0; // (rand() % 256) / 256.0f;
+	//_Color[3] = 1;
+	//
+	//m_pDevCon->ClearRenderTargetView(m_pScreen, _Color);
 	p_pDevCon->OMSetRenderTargets(1, &m_pScreen, m_pDepthStencil);
+	//// Postprocess Rendern
+	m_pBlurX->Blit(m_pMainSceneRender->GetTexture()); //m_pTestTexture); //
 
-	// Postprocess Rendern
-	m_pGreyScale->Blit(m_pTestTexture); // m_pMainSceneRender->GetTexture());
+
+	//m_pMainSceneRender->Bind();
+	//// Postprocess Rendern
+	//m_pGreyScale->Blit(m_pMainSceneRender->GetTexture()); //m_pTestTexture); //
+
 
 	m_pSpriteBatch->Begin();
 
 	m_pFPSDisplay->Render( m_pSpriteBatch, m_pCalibri, 0, 0 );
 
-	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(0, 0, 800, 600));
+	m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(0, 0, 400, 400));
 	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(200, 0, 400, 400));
 	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(0, 200, 400, 400));
 	//m_pSpriteBatch->Draw(m_pMainSceneRender->GetTexture(), Rect(200, 200, 400, 400));

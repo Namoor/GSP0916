@@ -29,6 +29,8 @@ private:
 	SpriteBatch* m_pSpriteBatch;
 	FPSDisplay* m_pFPSDisplay;
 
+	ID3D11DeviceContext* m_pDevCon;
+
 	First3DObject* m_pFirstObject;
 
 	Camera* m_pCamera;
@@ -43,8 +45,12 @@ private:
 	ID3D11DepthStencilView* m_pDepthStencil;
 
 	PostProcessingRenderTarget* m_pMainSceneRender;
+	PostProcessingRenderTarget* m_pOffScreenRender;
 
 	PostProcessingEffect* m_pGreyScale;
+	PostProcessingEffect* m_pBlurSimple;
+	PostProcessingEffect* m_pBlurX;
+	PostProcessingEffect* m_pBlurY;
 
 	Texture* m_pTestTexture;
 

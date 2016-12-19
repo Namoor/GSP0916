@@ -17,10 +17,10 @@ void PostProcessingEffect::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_
 	m_pDevice->CreateBuffer(&_VBDesc, nullptr, &m_pVertexBuffer);
 
 	XMFLOAT3 _Vertices[4];
-	_Vertices[0] = XMFLOAT3(-1, 1, 0);
-	_Vertices[1] = XMFLOAT3(1, 1, 0);
-	_Vertices[2] = XMFLOAT3(1, -1, 0);
-	_Vertices[3] = XMFLOAT3(-1, -1, 0);
+	_Vertices[0] = XMFLOAT3(-1, 1, 0.1f);
+	_Vertices[1] = XMFLOAT3(1, 1, 0.1f);
+	_Vertices[2] = XMFLOAT3(1, -1, 0.1f);
+	_Vertices[3] = XMFLOAT3(-1, -1, 0.1f);
 
 	D3D11_MAPPED_SUBRESOURCE _VBMSR;
 	m_pDevCon->Map(m_pVertexBuffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &_VBMSR);
@@ -32,7 +32,7 @@ void PostProcessingEffect::Init(ID3D11Device* p_pDevice, ID3D11DeviceContext* p_
 	ZeroMemory(&_IBDesc, sizeof(_IBDesc));
 
 	_IBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-	_IBDesc.ByteWidth = 6 * sizeof(unsigned int);
+	_IBDesc.ByteWidth = 6 * sizeof(UINT32);
 	_IBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 	_IBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 

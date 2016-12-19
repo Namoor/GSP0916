@@ -28,12 +28,12 @@ float4 PShader(VSOutput pInput) : SV_TARGET
 {
 	float4 Color = Rendertarget.Sample(Sampler, pInput.UV).rgba;
 
-	//float Intensity = (Color.r * 0.3f + Color.g * 0.59f + Color.b * 0.11f);
+	float Intensity = (Color.r * 0.3f + Color.g * 0.59f + Color.b * 0.11f);
 
-	float3 Intensity;
-	Intensity.r = Color.rgb * float3(0.393f, 0.769f, 0.189f);
-	Intensity.g = Color.rgb * float3(0.349f, 0.686f, 0.168f);
-	Intensity.b = Color.rgb * float3(0.272f, 0.534f, 0.131f);
+	//float3 Intensity;
+	//Intensity.r = dot(Color.rgb, float3(0.393f, 0.769f, 0.189f));
+	//Intensity.g = dot(Color.rgb, float3(0.349f, 0.686f, 0.168f));
+	//Intensity.b = dot(Color.rgb, float3(0.272f, 0.534f, 0.131f));
 
 	// 1,0,0 = 0.3
 	// 0,1,0 = 0.59
@@ -42,7 +42,7 @@ float4 PShader(VSOutput pInput) : SV_TARGET
 	// 0.3, 0.59, 0.11
 
 
-	return float4(Intensity.rgb, Color.a);
+	return float4(Intensity.rrr, Color.a);
 }
 
 

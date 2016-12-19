@@ -100,18 +100,18 @@ void PostProcessingRenderTarget::Init(ID3D11Device* p_pDevice, ID3D11DeviceConte
 
 void PostProcessingRenderTarget::Bind()
 {
+	m_pDevCon->RSSetViewports(1, &m_ViewPort);
 	m_pDevCon->OMSetRenderTargets(1, &m_pRTV, m_pDSV);
 
 	m_pDevCon->ClearDepthStencilView(m_pDSV, D3D11_CLEAR_FLAG::D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	float _Color[4];
-	_Color[0] = 0.3;
-	_Color[1] = 0.3;
-	_Color[2] = 0.3;
-	_Color[3] = 1;
+	_Color[0] = 1.0;
+	_Color[1] = 1.0;
+	_Color[2] = 1.0;
+	_Color[3] = 0;
 	m_pDevCon->ClearRenderTargetView(m_pRTV, _Color);
 
-	m_pDevCon->RSSetViewports(1, &m_ViewPort);
 }
 
 Texture* PostProcessingRenderTarget::GetTexture()

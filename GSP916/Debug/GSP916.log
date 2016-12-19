@@ -1,1 +1,35 @@
-﻿  GSP916.vcxproj -> F:\Jannik Sonntag\GSP0916\Debug\GSP916.exe
+﻿Build started 19.12.2016 11:40:23.
+     1>Project "D:\Jannik Sonntag\GSP0916\GSP916\GSP916.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt System.cpp
+         System.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Jannik Sonntag\GSP0916\Debug\GSP916.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Jannik Sonntag\GSP0916\Debug\GSP916.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Jannik Sonntag\GSP0916\Debug\GSP916.lib" /MACHINE:X86 Debug\Camera.obj
+         Debug\DirectionalLight.obj
+         Debug\First3DObject.obj
+         Debug\FPSDisplay.obj
+         Debug\GameObject.obj
+         Debug\Input.obj
+         Debug\Main.obj
+         Debug\Material.obj
+         Debug\PostProcessingEffect.obj
+         Debug\PostProcessingRenderTarget.obj
+         Debug\Shader.obj
+         Debug\Mesh.obj
+         Debug\MeshRenderer.obj
+         Debug\Rectangle.obj
+         Debug\Scene.obj
+         Debug\Scene3D.obj
+         Debug\ShadingDemo.obj
+         Debug\ShadowMap.obj
+         Debug\SpriteBatch.obj
+         Debug\SpriteFont.obj
+         Debug\System.obj
+         Debug\Texture.obj
+         Debug\Transform.obj
+         GSP916.vcxproj -> D:\Jannik Sonntag\GSP0916\Debug\GSP916.exe
+     1>Done Building Project "D:\Jannik Sonntag\GSP0916\GSP916\GSP916.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.36

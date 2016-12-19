@@ -256,5 +256,17 @@
     <FxCompile Include="BlackWhite.hlsl">
       <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Blur.hlsl">
+      <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="BlurX.hlsl">
+      <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="BlurY.hlsl">
+      <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="BloomPrepass.hlsl">
+      <Filter>Source Files\Components\PostProcessingEffect\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

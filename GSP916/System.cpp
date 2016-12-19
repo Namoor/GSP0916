@@ -82,7 +82,7 @@ void System::InitGraphics()
 		nullptr,
 		D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
-		0, //D3D11_CREATE_DEVICE_FLAG::D3D11_CREATE_DEVICE_DEBUG
+		0, //D3D11_CREATE_DEVICE_FLAG::D3D11_CREATE_DEVICE_DEBUG,
 		&_FeatureLevel, 1,
 		D3D11_SDK_VERSION,
 		&_SCD,
@@ -186,10 +186,10 @@ int System::Run(IScene* p_pScene)
 		Frames++;
 
 		float _Color[4];
-		_Color[0] = 0.3; // (rand() % 256) / 256.0f;
-		_Color[1] = 0.3; // (rand() % 256) / 256.0f;
-		_Color[2] = 0.3; // (rand() % 256) / 256.0f;
-		_Color[3] = 1;
+		_Color[0] = 1.0; // (rand() % 256) / 256.0f;
+		_Color[1] = 1.0; // (rand() % 256) / 256.0f;
+		_Color[2] = 1.0; // (rand() % 256) / 256.0f;
+		_Color[3] = 0;
 
 		m_pDeviceContext->ClearRenderTargetView(m_pScreen, _Color);
 		m_pDeviceContext->ClearDepthStencilView( m_pDepthStencil, D3D11_CLEAR_FLAG::D3D11_CLEAR_DEPTH, 1.0f, 0 );
